@@ -1,19 +1,4 @@
-# @babel/core
+# MazeProject
+Maze project for Advanced Subjects in Programming class
 
-> Babel compiler core.
-
-See our website [@babel/core](https://babeljs.io/docs/en/next/babel-core.html) for more information or the [issues](https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22pkg%3A%20core%22+is%3Aopen) associated with this package.
-
-## Install
-
-Using npm:
-
-```sh
-npm install --save-dev @babel/core
-```
-
-or using yarn:
-
-```sh
-yarn add @babel/core --dev
-```
+29/3/2020 Mor: The first day of working on the project. first try of Maze, Maze generators, position and test.

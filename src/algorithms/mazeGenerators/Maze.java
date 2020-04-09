@@ -126,7 +126,5 @@ public class Maze {
         }while(sameVertex == 1);
         this.setStartPosition(startPosX, startPosY);
         this.setGoalPosition(goalPosX, goalPosY);
-
-        /// BLA gilad
     }
 }

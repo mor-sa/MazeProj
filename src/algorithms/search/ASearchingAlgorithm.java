@@ -1,4 +1,7 @@
 package algorithms.search;
 
-public class ASearchingAlgorithm {
+public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
+    protected String Name;
+    protected int numOfNodesEval;
+
 }

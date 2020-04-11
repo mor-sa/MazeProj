@@ -7,60 +7,53 @@ public class MyMazeGenerator extends AMazeGenerator{
     @Override
     public Maze generate(int rows, int columns) {
         Maze newMaze = new Maze(rows, columns);
-        newMaze.setStartAndGoal();
+        // Setting all the maze as walls
         for (int i=0; i<rows; i++){
             for (int j=0; j<columns; j++){
                 newMaze.setValue(new Position(i,j),1);
             }
         }
-        List<Position> walls = new ArrayList<>();
+        Position startPos = newMaze.randPosOnVertex();
+        newMaze.setStartPosition(startPos.getX(), startPos.getY());
+        newMaze.setValue(newMaze.getStartPosition(), 0);
+        //creating lists
+        List<Position> framePassages = new ArrayList<>();
         // Starting with the start position of the maze and building a tree from there
-        Position randPos = newMaze.getStartPosition();
-        newMaze.setValue(randPos, 0);
-        List<Position> randNeighbors = newMaze.getNeighbors(randPos);
-        for (int i=0; i<randNeighbors.size(); i++){
-            if(newMaze.getValue(randNeighbors.get(i)) == 1){
-                walls.add(randNeighbors.get(i));
-            }
-        }
-
+        newMaze.setValue(newMaze.getStartPosition(), 0);
+        List<Position> walls = newMaze.getNeighbors(newMaze.getStartPosition());
+        //List<Position> walls = new ArrayList<>(startPosNeighbors);
+        // Breaking walls to create maze
         while(!walls.isEmpty()){
-            int rand = (int)(Math.random()*(walls.size()));
-            int curWallRow = walls.get(rand).getX();
-            int curWallCol = walls.get(rand).getY();
-            if(curWallCol == randPos.getX()){
-                if (curWallRow < randPos.getX()){
-                    if(curWallRow > 0){
-                        Position curPos = new Position(curWallRow-1, curWallCol);
-                        if (newMaze.getValue(curPos) == 1){
-                            newMaze.setValue(walls.get(rand),0);
-                            newMaze.setValue(curPos, 0);
-                            randNeighbors = newMaze.getNeighbors(curPos);
-                            for (int i=0; i<randNeighbors.size(); i++){
-                                if(newMaze.getValue(randNeighbors.get(i)) == 1){
-                                    walls.add(randNeighbors.get(i));
-                                }
-                            }
-                            randNeighbors.remove(rand);
-                        }
-                    }
+            int wallIndex = (int)(Math.random()*(walls.size()));
+            Position wall = walls.get(wallIndex);
+            List<Position> wallNeighbors = newMaze.getNeighbors(wall);
+            if (checkNeighbors(newMaze, wall)){
+                newMaze.setValue(wall,0);
+                walls.addAll(wallNeighbors);
+                if (wallNeighbors.size() < 4){
+                    framePassages.add(wall);
                 }
             }
-            /* check if only one of the 2 cells the wall divides is visited
-             if(...){
-                wall is passage
-
-
-              }
-
-              change randPos;
-             */
-
+            walls.remove(wall);
         }
+        // Set the goal position
+        do{
+            Position goalPos = newMaze.randPosOnVertex();
+            newMaze.setGoalPosition(goalPos.getX(), goalPos.getY());
+        }while(newMaze.sameVertex(newMaze.getStartPosition(),newMaze.getGoalPosition()) || newMaze.getValue(newMaze.getGoalPosition()) == 1);
+        return newMaze;
+    }
 
 
-
-
-        return null;
+    // Checks if a cell has more than 1 neighbor with value 0 (more than 1 neighbors that are passages) returns false
+    public boolean checkNeighbors(Maze maze, Position pos){
+        List<Position> cellNeighbors = maze.getNeighbors(pos);
+        int counter = 0;
+        for (Position cellNeighbor : cellNeighbors) {
+            if ((cellNeighbor != null) && (maze.getValue(cellNeighbor) == 0)) {
+                counter++;
+            }
+        }
+        return counter <= 1;
     }
 }

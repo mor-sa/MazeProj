@@ -109,27 +109,22 @@ public class Maze {
         if (pos.getY() + 1 <= this.getColsNum() - 1) {
             clockNeighbors.add(new Position(pos.getX(), pos.getY() + 1));
         }
-
         // Right down
         if (pos.getY()+1 <= this.getColsNum() -1 && pos.getX() + 1 <= this.getRowsNum() - 1){
             clockNeighbors.add(new Position(pos.getX()+1, pos.getY() + 1));
         }
-
         // Down
         if (pos.getX() + 1 <= this.getRowsNum() - 1) {
             clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()));
         }
-
         // Down Left
         if (pos.getX() + 1 <= this.getRowsNum() - 1 && pos.getY() -1 >= 0) {
             clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()-1));
         }
-
         // Left
         if (pos.getY() - 1 >= 0) {
             clockNeighbors.add(new Position(pos.getX(), pos.getY() - 1));
         }
-
         // Left Up
         if (pos.getY() - 1 >= 0 && pos.getX() - 1 >= 0){
             clockNeighbors.add(new Position(pos.getX() -1, pos.getY()-1));

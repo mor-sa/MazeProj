@@ -31,6 +31,18 @@ public abstract class AState implements Comparable {
         return cost;
     }
 
+    public void setPrev(AState prev) {
+        this.prev = prev;
+    }
+
+    public void setState_str(String state_str) {
+        this.state_str = state_str;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     @Override
     public String toString() {
         return state_str;

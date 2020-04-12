@@ -66,43 +66,6 @@ public class Maze {
         }
     }
 
-    // Function to randomly set the start and goal positions of the maze
-//    public void setStartAndGoal(){
-//        int startPosX, startPosY, goalPosX, goalPosY, sameVertex;
-//        do{
-//            sameVertex = 0;
-//            startPosX = (int)(Math.random()*this.getRowsNum());
-//            goalPosX = (int)(Math.random()*this.getRowsNum());
-//            if (startPosX == 0 || startPosX == this.getRowsNum()-1){
-//                startPosY = (int)(Math.random()*this.getColsNum());
-//            }
-//            else{
-//                startPosY = ((int)(Math.random()*2)) * (this.getColsNum()-1);
-//            }
-//            if (goalPosX == 0 || goalPosX == this.getRowsNum() -1){
-//                goalPosY = (int)(Math.random()*this.getColsNum());
-//            }
-//            else {
-//                goalPosY = ((int) (Math.random() * 2)) * (this.getColsNum()-1);
-//            }
-//            if (startPosX == 0 && goalPosX == 0){
-//                sameVertex = 1;
-//            }
-//            if (startPosX == this.getRowsNum()-1 && goalPosX == this.getRowsNum()-1){
-//                sameVertex = 1;
-//            }
-//            if (startPosY == 0 && goalPosY == 0){
-//                sameVertex = 1;
-//            }
-//            if (startPosY == this.getColsNum()-1 && goalPosY == this.getColsNum()-1){
-//                sameVertex = 1;
-//            }
-//        }while(sameVertex == 1);
-//        this.setStartPosition(startPosX, startPosY);
-//        this.setGoalPosition(goalPosX, goalPosY);
-//    }
-
-
     public Position randPosOnVertex(){
         int PosX, PosY;
         PosX = (int)(Math.random()*this.getRowsNum());
@@ -130,6 +93,48 @@ public class Maze {
             sameVertex = true;
         }
         return sameVertex;
+    }
+
+    public List<Position> getClockNeighbors(Position pos){
+        List<Position> clockNeighbors = new ArrayList<>();
+        // Up
+        if (pos.getX() - 1 >= 0) {
+            clockNeighbors.add(new Position(pos.getX() - 1, pos.getY()));
+        }
+        // Up right
+        if (pos.getX() -1 >= 0 && pos.getY() + 1 <= this.getColsNum() -1){
+            clockNeighbors.add(new Position(pos.getX()-1, pos.getY()+1));
+        }
+        // Right
+        if (pos.getY() + 1 <= this.getColsNum() - 1) {
+            clockNeighbors.add(new Position(pos.getX(), pos.getY() + 1));
+        }
+
+        // Right down
+        if (pos.getY()+1 <= this.getColsNum() -1 && pos.getX() + 1 <= this.getRowsNum() - 1){
+            clockNeighbors.add(new Position(pos.getX()+1, pos.getY() + 1));
+        }
+
+        // Down
+        if (pos.getX() + 1 <= this.getRowsNum() - 1) {
+            clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()));
+        }
+
+        // Down Left
+        if (pos.getX() + 1 <= this.getRowsNum() - 1 && pos.getY() -1 >= 0) {
+            clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()-1));
+        }
+
+        // Left
+        if (pos.getY() - 1 >= 0) {
+            clockNeighbors.add(new Position(pos.getX(), pos.getY() - 1));
+        }
+
+        // Left Up
+        if (pos.getY() - 1 >= 0 && pos.getX() - 1 >= 0){
+            clockNeighbors.add(new Position(pos.getX() -1, pos.getY()-1));
+        }
+        return clockNeighbors;
     }
 
 }

@@ -97,37 +97,80 @@ public class Maze {
 
     public List<Position> getClockNeighbors(Position pos){
         List<Position> clockNeighbors = new ArrayList<>();
+        Position curPos = new Position(0,0);
         // Up
         if (pos.getX() - 1 >= 0) {
-            clockNeighbors.add(new Position(pos.getX() - 1, pos.getY()));
+            curPos.setX(pos.getX() - 1);
+            curPos.setY(pos.getY());
+            if (getValue(curPos)==0){
+                clockNeighbors.add(new Position(pos.getX() - 1, pos.getY()));
+            }
         }
         // Up right
         if (pos.getX() -1 >= 0 && pos.getY() + 1 <= this.getColsNum() -1){
-            clockNeighbors.add(new Position(pos.getX()-1, pos.getY()+1));
+            // Check if up and right are 0 or other path 0
+            curPos.setX(pos.getX() - 1);
+            curPos.setY(pos.getY() + 1);
+            if (getValue(curPos) == 0) {
+                if ((getValue(new Position(pos.getX(), pos.getY() + 1)) == 0) || (getValue(new Position(pos.getX()-1, pos.getY())) == 0)) {
+                    clockNeighbors.add(new Position(pos.getX() - 1, pos.getY() + 1));
+                }
+            }
         }
         // Right
         if ((pos.getY() + 1) <= (this.getColsNum() - 1)) {
-            clockNeighbors.add(new Position(pos.getX(), pos.getY() + 1));
+            curPos.setX(pos.getX());
+            curPos.setY(pos.getY() + 1);
+            if (getValue(curPos) == 0){
+                clockNeighbors.add(new Position(pos.getX(), pos.getY() + 1));
+            }
         }
         // Right down
-        if (pos.getY()+1 <= this.getColsNum() -1 && pos.getX() + 1 <= this.getRowsNum() - 1){
-            clockNeighbors.add(new Position(pos.getX()+1, pos.getY() + 1));
+        if (pos.getY() +1 <= this.getColsNum() -1 && pos.getX() + 1 <= this.getRowsNum() - 1){
+            curPos.setX(pos.getX() + 1);
+            curPos.setY(pos.getY() + 1);
+            if (getValue(curPos) ==0){
+                // Checks if there
+                if ((getValue(new Position(pos.getX(),pos.getY()+1)) == 0) || (getValue(new Position(pos.getX()+1, pos.getY())) == 0)){
+                    clockNeighbors.add(new Position(pos.getX() + 1, pos.getY() + 1));
+                }
+            }
         }
         // Down
         if (pos.getX() + 1 <= this.getRowsNum() - 1) {
-            clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()));
+            curPos.setX(pos.getX() + 1);
+            curPos.setY(pos.getY());
+            if (getValue(curPos) == 0){
+                clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()));
+            }
         }
         // Down Left
         if (pos.getX() + 1 <= this.getRowsNum() - 1 && pos.getY() -1 >= 0) {
-            clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()-1));
+            curPos.setX(pos.getX() + 1);
+            curPos.setY(pos.getY()-1);
+            if (getValue(curPos) == 0){
+                if ((getValue(new Position(pos.getX()+1, pos.getY())) == 0) || (getValue(new Position(pos.getX(), pos.getY()-1)) == 0)){
+                    clockNeighbors.add(new Position(pos.getX() + 1, pos.getY()-1));
+                }
+            }
         }
         // Left
         if (pos.getY() - 1 >= 0) {
-            clockNeighbors.add(new Position(pos.getX(), pos.getY() - 1));
+            curPos.setX(pos.getX());
+            curPos.setY(pos.getY() - 1);
+            if (getValue(curPos) == 0){
+                clockNeighbors.add(new Position(pos.getX(), pos.getY() - 1));
+            }
         }
         // Left Up
         if (pos.getY() - 1 >= 0 && pos.getX() - 1 >= 0){
-            clockNeighbors.add(new Position(pos.getX() -1, pos.getY()-1));
+            curPos.setX(pos.getX() - 1);
+            curPos.setY(pos.getY() - 1);
+            if (getValue(curPos) == 0){
+                if ((getValue(new Position(pos.getX()-1, pos.getY())) == 0) || (getValue(new Position(pos.getX(), pos.getY()-1)) == 0)){
+                    clockNeighbors.add(new Position(pos.getX() - 1, pos.getY() - 1));
+                }
+            }
         }
         return clockNeighbors;
     }

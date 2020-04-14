@@ -54,6 +54,6 @@ public class MyMazeGenerator extends AMazeGenerator{
                 counter++;
             }
         }
-        return counter <= 1;
+        return counter < 2;
     }
 }

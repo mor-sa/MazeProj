@@ -15,7 +15,7 @@ public class MazeState extends AState {
     public Position convertStrToPos(String s){
         Position pos = new Position();
         if (s != null){
-            String posStr = s.substring(1,s.length()-2);
+            String posStr = s.substring(1,s.length()-1);
             String[] posArr = posStr.split(",");
             pos.setX(Integer.parseInt(posArr[0]));
             pos.setY(Integer.parseInt(posArr[1]));

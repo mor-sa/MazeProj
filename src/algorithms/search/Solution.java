@@ -1,23 +1,31 @@
 package algorithms.search;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Solution {
-    private ArrayList<AState> solPath;
+    private AState goalState;
 
     public Solution() {
-        this.solPath = new ArrayList<>();
+        goalState = null;
     }
 
-    public Solution(ArrayList<AState> solPath) {
-        this.solPath = solPath;
+    public Solution(AState goal) {
+        this.goalState = goal;
     }
 
     public ArrayList<AState> getSolutionPath() {
-        return solPath;
-    }
-
-    public void Add(AState s){
-        this.solPath.add(s);
+        ArrayList path = new ArrayList();
+        AState curState = goalState;
+        if (curState != null) {
+            path.add(curState);
+            while (curState.getPrev() != null) {
+                curState = curState.getPrev();
+                path.add(curState);
+            }
+            Collections.reverse(path);
+        }
+        return path;
     }
 }

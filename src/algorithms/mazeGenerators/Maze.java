@@ -106,7 +106,7 @@ public class Maze {
             clockNeighbors.add(new Position(pos.getX()-1, pos.getY()+1));
         }
         // Right
-        if (pos.getY() + 1 <= this.getColsNum() - 1) {
+        if ((pos.getY() + 1) <= (this.getColsNum() - 1)) {
             clockNeighbors.add(new Position(pos.getX(), pos.getY() + 1));
         }
         // Right down

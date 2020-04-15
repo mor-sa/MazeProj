@@ -3,11 +3,12 @@ package algorithms.search;
 import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm {
-    protected Queue openList = new LinkedList();
-    protected HashSet<AState> visited;
+    protected Queue<AState> openList;
+    protected HashSet<String> visited;
 
     public BreadthFirstSearch() {
         this.Name = "Breadth First Search";
+        this.openList = new LinkedList<>();
         this.numOfNodesEval = 0;
     }
 
@@ -19,25 +20,20 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         visited = new HashSet<>();
         AState start = domain.getStartState();
         AState goal = domain.getGoalState();
-        visited.add(start);
+        visited.add(start.toString());
         openList.add(start);
         AState curState;
         while (openList.size() != 0){
-             curState = (AState)openList.poll();
-             countEval++;
-            if (curState == goal){
+             curState = openList.poll();
+            if (curState.equals(goal)){
                 setNumOfNodesEval(countEval);
                 return new Solution(curState);
             }
             List<AState> neighbors = domain.getAllPossibleStates(curState);
+            countEval++;
             for (AState neighbor : neighbors) {
-                neighbor.setCost(curState.getCost() + neighbor.getCost());
-                if (!(visited.contains(neighbor))) {
-                    if (goal == neighbor){
-                        setNumOfNodesEval(countEval);
-                        return new Solution(neighbor);
-                    }
-                    visited.add((AState) neighbor);
+                if (!(visited.contains(neighbor.toString()))) {
+                    visited.add(neighbor.toString());
                     openList.add(neighbor);
                 }
             }

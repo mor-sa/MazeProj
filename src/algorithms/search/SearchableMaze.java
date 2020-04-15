@@ -32,11 +32,11 @@ public class SearchableMaze implements ISearchable{
     public List<AState> getAllPossibleStates(AState s) {
         List<AState> AllSuccessors = new ArrayList<>();
         MazeState mState = new MazeState(s.getPrev(), s.getState_str(), s.getCost());
-        if (mState.getPos().getX() <= this.maze.getRowsNum()-1 && mState.getPos().getY() <= this.maze.getColsNum()-1){
+        if (mState.getPos().getRowIndex() <= this.maze.getRowsNum()-1 && mState.getPos().getColumnIndex() <= this.maze.getColsNum()-1){
             List<Position> NeighPositions = this.maze.getClockNeighbors(mState.getPos());
             for (Position tempPos : NeighPositions) {
                 MazeState tempState = new MazeState(mState, tempPos.toString(), 0);
-                if (tempPos.getX() != mState.getPos().getX() && tempPos.getY() != mState.getPos().getY()) {
+                if (tempPos.getRowIndex() != mState.getPos().getRowIndex() && tempPos.getColumnIndex() != mState.getPos().getColumnIndex()) {
                     tempState.setCost(15);
                 } else {
                     tempState.setCost(10);
@@ -47,5 +47,13 @@ public class SearchableMaze implements ISearchable{
         return AllSuccessors;
     }
 
+    @Override
+    public void printColor() {
+        this.maze.printColor();
+    }
 
+    @Override
+    public void printColorSolution(ArrayList<Position> path) {
+        this.maze.printColorSolution(path);
+    }
 }

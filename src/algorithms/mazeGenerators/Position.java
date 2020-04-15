@@ -3,39 +3,39 @@ package algorithms.mazeGenerators;
 import javafx.geometry.Pos;
 
 public class Position {
-    private int x;
-    private int y;
+    private int row;
+    private int col;
 
     public Position(){
-        this.x = 0;
-        this.y = 0;
+        this.row = 0;
+        this.col = 0;
     }
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
-    public int getX() {
-        return x;
+    public int getRowIndex() {
+        return row;
     }
 
-    public int getY() {
-        return y;
+    public int getColumnIndex() {
+        return col;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setRowIndex(int row) {
+        this.row = row;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setColumnIndex(int col) {
+        this.col = col;
     }
 
     @Override
     public String toString() {
-        return "{"  + x +
-                "," + y +
+        return "{"  + row +
+                "," + col +
                 '}';
     }
 
@@ -44,7 +44,7 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return x == position.x &&
-                y == position.y;
+        return row == position.row &&
+                col == position.col;
     }
 }

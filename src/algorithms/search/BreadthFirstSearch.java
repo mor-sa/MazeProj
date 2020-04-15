@@ -2,6 +2,11 @@ package algorithms.search;
 
 import java.util.*;
 
+/*
+This class extends ASearchingAlgorithm and implements a Breadth First Search.
+It gets an ISearchable domain and returns a Solution.
+ */
+
 public class BreadthFirstSearch extends ASearchingAlgorithm {
     protected Queue<AState> openList;
     protected HashSet<String> visited;
@@ -23,6 +28,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         visited.add(start.toString());
         openList.add(start);
         AState curState;
+        // While open list is not empty
         while (openList.size() != 0){
              curState = openList.poll();
             if (curState.equals(goal)){

@@ -2,6 +2,10 @@ package algorithms.search;
 
 import algorithms.mazeGenerators.Position;
 
+/*
+This class extends AState and defines a MazeState and its attributes and methods.
+ */
+
 public class MazeState extends AState {
     private Position pos;
 

@@ -4,6 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
+/*
+This class extends ASearchingAlgorithm and implements a Depth First Search.
+It gets an ISearchable domain and returns a Solution.
+ */
+
 public class DepthFirstSearch extends ASearchingAlgorithm {
     protected Stack<AState> openList;
     protected HashSet<String> visited;

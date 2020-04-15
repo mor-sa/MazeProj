@@ -5,6 +5,10 @@ import algorithms.mazeGenerators.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This is a class which is an object adapter for maze to be implement ISearchable interface.
+ */
+
 public class SearchableMaze implements ISearchable{
     private Maze maze;
 
@@ -29,6 +33,7 @@ public class SearchableMaze implements ISearchable{
     }
 
     @Override
+    // This method returns all the possible states a maze state can go to
     public List<AState> getAllPossibleStates(AState s) {
         List<AState> AllSuccessors = new ArrayList<>();
         MazeState mState = new MazeState(s.getPrev(), s.getState_str(), s.getCost());

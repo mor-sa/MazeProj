@@ -4,7 +4,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     protected String Name;
     protected int numOfNodesEval;
 
-    public int getNumOfNodesEval(){
+    public int getNumberOfNodesEvaluated(){
         return numOfNodesEval;
     }
 

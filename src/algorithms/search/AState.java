@@ -56,35 +56,9 @@ public abstract class AState implements Comparable<AState> {
         return Objects.equals(state_str, aState.state_str);
     }
 
-//    @Override
-//    public int compareTo(Object o) {
-//        if (this.getClass().isInstance(o)) {
-//            AState other = (AState) o;
-//            if (this.cost > other.cost) {
-//                return 1;
-//            }
-//            else if (this.cost == other.cost) {
-//                return 0;
-//            }
-//            else {
-//                return -1;
-//            }
-//        }
-//        return 1;
-//    }
-
-
     @Override
     public int compareTo(AState other) {
-        if (this.cost > other.cost) {
-            return 1;
-        }
-        else if (this.cost == other.cost) {
-            return 0;
-        }
-        else {
-            return -1;
-        }
+        return Integer.compare(this.cost, other.cost);
     }
 
     @Override

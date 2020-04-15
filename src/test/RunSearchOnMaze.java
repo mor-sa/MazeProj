@@ -11,13 +11,7 @@ public class RunSearchOnMaze {
     public static void main(String[] args) {
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(30, 30);
-//        for(int i = 0; i< maze.getRowsNum(); i++){
-//            for(int j = 0; j< maze.getColsNum(); j++){
-//                if ((i == maze.getGoalPosition().getRowIndex()) || j == maze.getGoalPosition().getColumnIndex()){
-//                    maze.setValue(new Position(i,j),1);
-//                }
-//            }
-//        }
+        maze.print();
         SearchableMaze searchableMaze = new SearchableMaze(maze);
         solveProblem(searchableMaze, new BreadthFirstSearch());
         solveProblem(searchableMaze, new DepthFirstSearch());
@@ -33,9 +27,6 @@ public class RunSearchOnMaze {
             MazeState cur = new MazeState(state.getPrev(), state.getState_str(), state.getCost());
             path.add(cur.getPos());
         }
-
-        domain.printColorSolution(path);
-
 
         System.out.println(String.format("'%s' algorithm - nodes evaluated: %s", searcher.getName(), searcher.getNumberOfNodesEvaluated()));
                 //Printing Solution Path

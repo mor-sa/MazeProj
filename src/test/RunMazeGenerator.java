@@ -4,7 +4,7 @@ import algorithms.mazeGenerators.*;
 
 public class RunMazeGenerator {
     public static void main(String[] args) {
-        //  testMazeGenerator(new EmptyMazeGenerator());
+        testMazeGenerator(new EmptyMazeGenerator());
         testMazeGenerator(new SimpleMazeGenerator());
         testMazeGenerator(new MyMazeGenerator());
     }
@@ -15,7 +15,7 @@ public class RunMazeGenerator {
         // generate another maze
         Maze maze = mazeGenerator.generate(30/*rows*/, 30/*columns*/);
         // prints the maze
-        maze.printColor();
+        maze.print();
         // get the maze entrance
         Position startPosition = maze.getStartPosition();
         // print the position

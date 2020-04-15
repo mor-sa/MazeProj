@@ -5,9 +5,6 @@ import java.util.List;
 
 public class MyMazeGenerator extends AMazeGenerator{
 
-    public MyMazeGenerator() {
-    }
-
     @Override
     public Maze generate(int rows, int columns) {
         Maze newMaze = new Maze(rows, columns);
@@ -22,10 +19,12 @@ public class MyMazeGenerator extends AMazeGenerator{
         newMaze.setStartPosition(startPos.getRowIndex(), startPos.getColumnIndex());
         newMaze.setValue(startPos, 0);
 
+        // Edge case where a maze is sized 2 x 2
         if ((rows == 2) && (columns == 2)) {
             List<Position> neighbors = newMaze.getNeighbors(startPos);
             int randInd = (int) (Math.random() * (neighbors.size()));
             newMaze.setValue(neighbors.get(randInd), 0);
+            // The goal would be a position not on the same vertex as start
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     if ((!(neighbors.contains(new Position (i,j)))) && (!(startPos.equals(new Position(i,j))))) {
@@ -36,10 +35,9 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
             return newMaze;
         }
-
+        // Other cases:
         // add the walls of the cells
         List<Position> walls = newMaze.getNeighbors(newMaze.getStartPosition());
-
         // while there are walls in the list
         while (walls.size() > 0) {
             // Pick a random wall from the list
@@ -67,7 +65,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         return newMaze;
     }
 
-    // Function to add the opposite cell of a cell in a given maze
+    // Function to add the opposite cells of a cell in a given maze
     public ArrayList<Position> addOppositeCell (Maze m, Position wall){
         ArrayList<Position> unvisitedCell = new ArrayList<>();
         if ((wall.getColumnIndex() + 1 < m.getColsNum()) && (m.getValue(new Position(wall.getRowIndex(), wall.getColumnIndex() + 1)) == 0)) {

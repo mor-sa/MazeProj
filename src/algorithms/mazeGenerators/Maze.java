@@ -50,47 +50,6 @@ public class Maze {
         return neighbors;
     }
 
-    public void printColor() {
-        for(int i = 0; i < this.ArrMaze.length; ++i) {
-            for(int j = 0; j < this.ArrMaze[i].length; ++j) {
-                if (i == this.startPos.getRowIndex() && j == this.startPos.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
-                } else if (i == this.goalPos.getRowIndex() && j == this.goalPos.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
-                } else if (this.ArrMaze[i][j] == 1) {
-                    System.out.print(" \u001b[45m ");
-                } else {
-                    System.out.print(" \u001b[107m ");
-                }
-            }
-            System.out.println(" \u001b[107m");
-        }
-    }
-
-    public void printColorSolution(ArrayList<Position> path) {
-        for(int i = 0; i < this.ArrMaze.length; ++i) {
-            for(int j = 0; j < this.ArrMaze[i].length; ++j) {
-                if (i == this.startPos.getRowIndex() && j == this.startPos.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
-                } else if (i == this.goalPos.getRowIndex() && j == this.goalPos.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
-                } else if (this.ArrMaze[i][j] == 1) {
-                    System.out.print(" \u001b[45m ");
-                }
-                else if (path.contains(new Position(i, j))) {
-                    System.out.print(" \u001b[41m ");
-                }
-                else {
-                    System.out.print(" \u001b[107m ");
-                }
-
-            }
-            System.out.println(" \u001b[107m");
-        }
-    }
-
-
-
     public void print(){
         for (int i=0; i<rowsNum; i++){
             for (int j=0; j<colsNum; j++){

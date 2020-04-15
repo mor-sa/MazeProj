@@ -46,14 +46,4 @@ public class SearchableMaze implements ISearchable{
         }
         return AllSuccessors;
     }
-
-    @Override
-    public void printColor() {
-        this.maze.printColor();
-    }
-
-    @Override
-    public void printColorSolution(ArrayList<Position> path) {
-        this.maze.printColorSolution(path);
-    }
 }

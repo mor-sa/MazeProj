@@ -2,7 +2,6 @@ package algorithms.search;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Solution {
     private AState goalState;
@@ -16,7 +15,7 @@ public class Solution {
     }
 
     public ArrayList<AState> getSolutionPath() {
-        ArrayList path = new ArrayList();
+        ArrayList<AState> path = new ArrayList<>();
         AState curState = goalState;
         if (curState != null) {
             path.add(curState);

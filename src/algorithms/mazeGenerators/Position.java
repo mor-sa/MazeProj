@@ -1,7 +1,5 @@
 package algorithms.mazeGenerators;
 
-import javafx.geometry.Pos;
-
 public class Position {
     private int row;
     private int col;
@@ -19,15 +17,12 @@ public class Position {
     public int getRowIndex() {
         return row;
     }
-
     public int getColumnIndex() {
         return col;
     }
-
     public void setRowIndex(int row) {
         this.row = row;
     }
-
     public void setColumnIndex(int col) {
         this.col = col;
     }

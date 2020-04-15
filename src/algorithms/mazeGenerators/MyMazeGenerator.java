@@ -3,6 +3,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This is a class that extends AMazeGenerator and overrides the generate method of IMazeGenerator.
+This class creates an Interesting maze by implementing Prim's randomized algorithm.
+ */
+
 public class MyMazeGenerator extends AMazeGenerator{
 
     @Override

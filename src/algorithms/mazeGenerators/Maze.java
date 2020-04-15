@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 
+/*
+This is a class that defines a maze, it's attributes and methods.
+ */
+
 import javafx.geometry.Pos;
 
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ public class Maze {
     public void setValue(Position pos, int val){ this.ArrMaze[pos.getRowIndex()][pos.getColumnIndex()] = val; }
     public int getValue(Position pos){ return this.ArrMaze[pos.getRowIndex()][pos.getColumnIndex()]; }
 
-    // Method that returns a list of neighbors positions to a given position
+    // Method that returns a list of all neighbors positions of a given position
     public List<Position> getNeighbors(Position pos) {
         List<Position> neighbors = new ArrayList<>();
         if (pos.getRowIndex() - 1 >= 0) {
@@ -50,6 +54,7 @@ public class Maze {
         return neighbors;
     }
 
+    // Method that prints a maze with 0 as path, 1 as walls, s as start and e as goal point
     public void print(){
         for (int i=0; i<rowsNum; i++){
             for (int j=0; j<colsNum; j++){
@@ -68,6 +73,7 @@ public class Maze {
         }
     }
 
+    // Method that returns a random position on vertices
     public Position randPosOnVertex(){
         int PosX, PosY;
         PosX = (int)(Math.random()*this.getRowsNum());
@@ -80,6 +86,7 @@ public class Maze {
         return new Position(PosX, PosY);
     }
 
+    // Method that returns a boolean if 2 positions are on the same vertex
     public boolean sameVertex(Position start, Position goal){
         boolean sameVertex = false;
         if (start.getRowIndex()== 0 && goal.getRowIndex() == 0){
@@ -97,6 +104,7 @@ public class Maze {
         return sameVertex;
     }
 
+    // Method that returns the clock neighbors of a given position if the neighbor position is a path cell
     public List<Position> getClockNeighbors(Position pos){
         List<Position> clockNeighbors = new ArrayList<>();
         Position curPos = new Position(0,0);

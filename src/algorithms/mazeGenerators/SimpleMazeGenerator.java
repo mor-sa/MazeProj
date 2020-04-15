@@ -1,5 +1,10 @@
 package algorithms.mazeGenerators;
 
+/*
+This is a class that extends AMazeGenerator and overrides the generate method of IMazeGenerator.
+This class creates simple maze with random walls and more than one solution.
+ */
+
 public class SimpleMazeGenerator extends AMazeGenerator{
 
     @Override

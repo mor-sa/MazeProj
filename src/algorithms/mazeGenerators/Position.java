@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 
+/*
+This class defines a Position and it's attributes and methods.
+ */
+
 public class Position {
     private int row;
     private int col;

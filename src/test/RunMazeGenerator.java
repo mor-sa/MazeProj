@@ -9,10 +9,6 @@ public class RunMazeGenerator {
         testMazeGenerator(new MyMazeGenerator());
     }
     private static void testMazeGenerator(IMazeGenerator mazeGenerator) {
-        // TEST 15.4
-
-
-
         // prints the time it takes the algorithm to run
         System.out.println(String.format("Maze generation time(ms): %s",
                 mazeGenerator.measureAlgorithmTimeMillis(30/*rows*/,30/*columns*/)));

@@ -89,8 +89,6 @@ public class Maze {
         }
     }
 
-
-
     public void print(){
         for (int i=0; i<rowsNum; i++){
             for (int j=0; j<colsNum; j++){

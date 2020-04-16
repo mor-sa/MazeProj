@@ -38,6 +38,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             List<AState> neighbors = domain.getAllPossibleStates(curState);
             countEval++;
             for (AState neighbor : neighbors) {
+                neighbor.setCost(curState.getCost() + neighbor.getCost());
                 if (!(visited.contains(neighbor.toString()))) {
                     visited.add(neighbor.toString());
                     openList.add(neighbor);

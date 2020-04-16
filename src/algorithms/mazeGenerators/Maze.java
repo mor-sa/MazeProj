@@ -136,6 +136,15 @@ public class Maze {
         return sameVertex;
     }
 
+    public void setRandGoalPos() {
+        do {
+            Position goalPos = this.randPosOnVertex();
+            this.setGoalPosition(goalPos.getRowIndex(), goalPos.getColumnIndex());
+            // if the goal position on same vertex as start goal or a wall, keeps settings new goal pos
+        } while (this.sameVertex(this.getStartPosition(), this.getGoalPosition()) || this.getValue(this.getGoalPosition()) == 1);
+    }
+
+    // Gets the clock neighbors with value 0 of a position
     public List<Position> getClockNeighbors(Position pos){
         List<Position> clockNeighbors = new ArrayList<>();
         Position curPos = new Position(0,0);
@@ -148,7 +157,7 @@ public class Maze {
             }
         }
         // Up right
-        if (pos.getRowIndex() -1 >= 0 && pos.getColumnIndex() + 1 <= this.getColsNum() -1){
+        if (pos.getRowIndex() -1 >= 0 && pos.getColumnIndex() + 1 < this.getColsNum()){
             // Check if up and right are 0 or other path 0
             curPos.setRowIndex(pos.getRowIndex() - 1);
             curPos.setColumnIndex(pos.getColumnIndex() + 1);
@@ -159,7 +168,7 @@ public class Maze {
             }
         }
         // Right
-        if ((pos.getColumnIndex() + 1) <= (this.getColsNum() - 1)) {
+        if ((pos.getColumnIndex() + 1) < (this.getColsNum())) {
             curPos.setRowIndex(pos.getRowIndex());
             curPos.setColumnIndex(pos.getColumnIndex() + 1);
             if (getValue(curPos) == 0){
@@ -167,7 +176,7 @@ public class Maze {
             }
         }
         // Right down
-        if (pos.getColumnIndex() +1 <= this.getColsNum() -1 && pos.getRowIndex() + 1 <= this.getRowsNum() - 1){
+        if (pos.getColumnIndex() +1 < this.getColsNum() && pos.getRowIndex() + 1 < this.getRowsNum()){
             curPos.setRowIndex(pos.getRowIndex() + 1);
             curPos.setColumnIndex(pos.getColumnIndex() + 1);
             if (getValue(curPos) ==0){
@@ -177,7 +186,7 @@ public class Maze {
             }
         }
         // Down
-        if (pos.getRowIndex() + 1 <= this.getRowsNum() - 1) {
+        if (pos.getRowIndex() + 1 < this.getRowsNum()) {
             curPos.setRowIndex(pos.getRowIndex() + 1);
             curPos.setColumnIndex(pos.getColumnIndex());
             if (getValue(curPos) == 0){
@@ -185,7 +194,7 @@ public class Maze {
             }
         }
         // Down Left
-        if (pos.getRowIndex() + 1 <= this.getRowsNum() - 1 && pos.getColumnIndex() -1 >= 0) {
+        if (pos.getRowIndex() + 1 < this.getRowsNum() && pos.getColumnIndex() -1 >= 0) {
             curPos.setRowIndex(pos.getRowIndex() + 1);
             curPos.setColumnIndex(pos.getColumnIndex()-1);
             if (getValue(curPos) == 0){

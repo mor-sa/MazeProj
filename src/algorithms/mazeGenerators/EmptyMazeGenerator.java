@@ -1,5 +1,10 @@
 package algorithms.mazeGenerators;
 
+/*
+This is a class that extends AMazeGenerator and overrides the generate method of IMazeGenerator.
+This class creates an empty maze - with no walls.
+ */
+
 public class EmptyMazeGenerator extends AMazeGenerator{
 
     public EmptyMazeGenerator() {

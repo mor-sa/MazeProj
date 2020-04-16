@@ -1,9 +1,11 @@
 package algorithms.mazeGenerators;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+This is a class that defines a maze, it's attributes and methods.
+ */
 
 public class Maze {
     private int[][] ArrMaze;
@@ -89,6 +91,7 @@ public class Maze {
         }
     }
 
+    // Method that prints a maze with 0 as path, 1 as walls, s as start and e as goal point
     public void print(){
         for (int i=0; i<rowsNum; i++){
             for (int j=0; j<colsNum; j++){
@@ -107,6 +110,7 @@ public class Maze {
         }
     }
 
+    // Method that returns a random position on vertices
     public Position randPosOnVertex(){
         int PosX, PosY;
         PosX = (int)(Math.random()*this.getRowsNum());
@@ -119,6 +123,7 @@ public class Maze {
         return new Position(PosX, PosY);
     }
 
+    // Method that returns a boolean if 2 positions are on the same vertex
     public boolean sameVertex(Position start, Position goal){
         boolean sameVertex = false;
         if (start.getRowIndex()== 0 && goal.getRowIndex() == 0){
@@ -136,6 +141,7 @@ public class Maze {
         return sameVertex;
     }
 
+    // Method that sets a random goal position after setting a start position
     public void setRandGoalPos() {
         do {
             Position goalPos = this.randPosOnVertex();

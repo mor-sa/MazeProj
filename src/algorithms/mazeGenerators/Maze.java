@@ -146,7 +146,7 @@ public class Maze {
         do {
             Position goalPos = this.randPosOnVertex();
             this.setGoalPosition(goalPos.getRowIndex(), goalPos.getColumnIndex());
-            // if the goal position on same vertex as start goal or a wall, keeps settings new goal pos
+            // if the goal position on same vertex as start goal or a wall, keeps setting new goal pos
         } while (this.sameVertex(this.getStartPosition(), this.getGoalPosition()) || this.getValue(this.getGoalPosition()) == 1);
     }
 

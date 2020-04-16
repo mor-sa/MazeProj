@@ -22,6 +22,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         newMaze.setStartPosition(startPos.getRowIndex(), startPos.getColumnIndex());
         newMaze.setValue(startPos, 0);
 
+        // Edge scenario where the maze is 2x2
         if ((rows == 2) && (columns == 2)) {
             List<Position> neighbors = newMaze.getNeighbors(startPos);
             int randInd = (int) (Math.random() * (neighbors.size()));
@@ -36,7 +37,7 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
             return newMaze;
         }
-
+        // Other cases:
         // add the walls of the cells
         List<Position> walls = newMaze.getNeighbors(newMaze.getStartPosition());
 
@@ -60,10 +61,7 @@ public class MyMazeGenerator extends AMazeGenerator{
             walls.remove(wallIndex);
         }
         // Setting the goal position randomized and checking they are not on the same vertex
-        do {
-            Position goalPos = newMaze.randPosOnVertex();
-            newMaze.setGoalPosition(goalPos.getRowIndex(), goalPos.getColumnIndex());
-        } while (newMaze.sameVertex(newMaze.getStartPosition(), newMaze.getGoalPosition()) || newMaze.getValue(newMaze.getGoalPosition()) == 1);
+        newMaze.setRandGoalPos();
         return newMaze;
     }
 

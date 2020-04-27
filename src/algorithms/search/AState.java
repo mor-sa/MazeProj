@@ -2,7 +2,7 @@ package algorithms.search;
 
 import java.util.Objects;
 
-/*
+/**
 This class defines the AState and its attributes and methods.
 AState saves the prev of a state, the cost of it, and the string that represents it.
  */

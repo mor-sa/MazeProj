@@ -1,6 +1,6 @@
 package algorithms.mazeGenerators;
 
-/*
+/**
 This class defines a Position and it's attributes and methods.
  */
 

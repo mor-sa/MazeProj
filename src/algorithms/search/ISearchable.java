@@ -5,7 +5,7 @@ import algorithms.mazeGenerators.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 This is an interface for searchable domains, it declares which methods domain should implements.
  */
 

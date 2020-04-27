@@ -1,5 +1,4 @@
 package algorithms.mazeGenerators;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,12 @@ public class MyMazeGenerator extends AMazeGenerator{
     public MyMazeGenerator() {
     }
 
+    /**
+     * Generates a new maze created by prim's randomized algorithm
+     * @param rows - number of rows wanted in the maze
+     * @param columns - number of cols wanted in the maze
+     * @return maze
+     */
     @Override
     public Maze generate(int rows, int columns) {
         Maze newMaze = new Maze(rows, columns);
@@ -66,7 +71,12 @@ public class MyMazeGenerator extends AMazeGenerator{
         return newMaze;
     }
 
-    // Function to add the opposite cell of a cell in a given maze
+    /**
+     * Function to add the opposite cell of a cell in a given maze
+     * @param m - a given maze to work on
+     * @param wall - a given position to find it's opposite
+     * @return list of opposite cells
+     */
     public ArrayList<Position> addOppositeCell (Maze m, Position wall){
         ArrayList<Position> unvisitedCell = new ArrayList<>();
         if ((wall.getColumnIndex() + 1 < m.getColsNum()) && (m.getValue(new Position(wall.getRowIndex(), wall.getColumnIndex() + 1)) == 0)) {

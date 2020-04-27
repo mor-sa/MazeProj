@@ -3,7 +3,7 @@ package algorithms.search;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/*
+/**
 This class defines a solution. It saves the goalState and then from it retrieves a solution path.
  */
 
@@ -18,6 +18,10 @@ public class Solution {
         this.goalState = goal;
     }
 
+    /**
+     * This method reconstructs the solution path by finding the previous of each state starting with goal state.
+     * @return array list of states from start state to goal state
+     */
     public ArrayList<AState> getSolutionPath() {
         ArrayList<AState> path = new ArrayList<>();
         AState curState = goalState;

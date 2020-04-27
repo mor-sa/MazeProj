@@ -3,6 +3,7 @@ package test;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,15 @@ public class RunSearchOnMaze {
         Solution solution = searcher.solve(domain);
         System.out.println(String.format("'%s' algorithm - nodes evaluated: %s", searcher.getName(), searcher.getNumberOfNodesEvaluated()));
         //Printing Solution Path
+        ArrayList<Position> path = new ArrayList<>();
+        //path.clear();
+        for (AState state : solution.getSolutionPath()){
+            MazeState cur = new MazeState(state.getPrev(), state.getState_str(), state.getCost());
+            path.add(cur.getPos());
+        }
+
+        domain.printColorSolution(path);
+
 
         System.out.println("Solution path:");
         ArrayList<AState> solutionPath = solution.getSolutionPath();

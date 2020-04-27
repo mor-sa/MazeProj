@@ -1,6 +1,6 @@
 package algorithms.mazeGenerators;
 
-/*
+/**
 This is an ineterface for MazeGenerators that declares which methods needs to be provided by the MazeGenerators.
  */
 

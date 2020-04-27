@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
-/*
+/**
 This class extends ASearchingAlgorithm and implements a Depth First Search.
 It gets an ISearchable domain and returns a Solution.
  */
@@ -19,6 +19,11 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         this.numOfNodesEval = 0;
     }
 
+    /**
+     * Solves a given domain by DFS algorithm
+     * @param domain - an ISearchable object to search
+     * @return solution for the maze
+     */
     @Override
     public Solution solve(ISearchable domain) {
         int countEval = 0;

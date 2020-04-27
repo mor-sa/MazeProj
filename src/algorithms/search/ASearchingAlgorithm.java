@@ -1,6 +1,6 @@
 package algorithms.search;
 
-/*
+/**
 This is an abstract class that implement ISearchingAlgorithm.
  */
 

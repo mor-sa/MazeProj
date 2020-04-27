@@ -1,12 +1,18 @@
 package algorithms.mazeGenerators;
 
-/*
+/**
 This is a class that extends AMazeGenerator and overrides the generate method of IMazeGenerator.
 This class creates simple maze with random walls and more than one solution.
  */
 
 public class SimpleMazeGenerator extends AMazeGenerator{
 
+    /**
+     * Generates a simple maze, which has random walls. To ensure solution, the maze's frame is all passages
+     * @param rows - number of rows wanted in the maze
+     * @param cols - number of cols wanted in the maze
+     * @return new maze
+     */
     @Override
     public Maze generate(int rows, int cols) {
         Maze newMaze = new Maze(rows, cols);

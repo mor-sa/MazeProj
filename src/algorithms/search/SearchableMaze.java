@@ -5,7 +5,7 @@ import algorithms.mazeGenerators.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 This is a class which is an object adapter for maze to be implement ISearchable interface.
  */
 

@@ -3,7 +3,7 @@ package algorithms.mazeGenerators;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 This is a class that defines a maze, it's attributes and methods.
  */
 
@@ -58,7 +58,7 @@ public class Maze {
                 if (i == this.startPos.getRowIndex() && j == this.startPos.getColumnIndex()) {
                     System.out.print(" \u001b[44m ");
                 } else if (i == this.goalPos.getRowIndex() && j == this.goalPos.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
+                    System.out.print(" \u001b[42m ");
                 } else if (this.ArrMaze[i][j] == 1) {
                     System.out.print(" \u001b[45m ");
                 } else {

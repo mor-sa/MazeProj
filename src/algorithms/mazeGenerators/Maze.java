@@ -1,5 +1,8 @@
 package algorithms.mazeGenerators;
 
+import com.sun.source.doctree.SerialDataTree;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
 This is a class that defines a maze, it's attributes and methods.
  */
 
-public class Maze {
+public class Maze implements Serializable {
     private int[][] ArrMaze;
     private Position startPos;
     private Position goalPos;
@@ -20,6 +23,23 @@ public class Maze {
         this.colsNum = colsNum;
         this.startPos = new Position(0,0);
         this.goalPos = new Position(rowsNum-1, colsNum-1);
+    }
+
+    public Maze(byte[] byteArr) {
+        this.rowsNum = byteArr[0]*255 + byteArr[1];
+        this.colsNum = byteArr[2]*255 + byteArr[3];
+        int startPosRow = byteArr[4]*255 + byteArr[5];
+        int startPosCol = byteArr[6]*255 + byteArr[7];
+        int goalPosRow = byteArr[8]*255 + byteArr[9];
+        int goalPosCol = byteArr[10]*255 + byteArr[11];
+        this.startPos = new Position(startPosRow, startPosCol);
+        this.goalPos = new Position(goalPosRow, goalPosCol);
+        this.ArrMaze = new int[this.rowsNum][this.colsNum];
+        for (int i=0; i<this.rowsNum; i++){
+            for (int j=0; j<this.colsNum; j++){
+                this.ArrMaze[i][j] = byteArr[12 + (this.rowsNum * i) + j];
+            }
+        }
     }
 
     public void setStartPosition(int row, int y){ this.startPos = new Position(row, y); }
@@ -228,5 +248,35 @@ public class Maze {
             }
         }
         return clockNeighbors;
+    }
+
+    public byte[] toByteArray(){
+        byte[] byteArr = new byte[12 + (this.rowsNum * this.colsNum)];
+        // represent row number in bytes
+        byteArr[0] = (byte)(this.rowsNum / 255);
+        byteArr[1] = (byte)(this.rowsNum % 255);
+        // represent column number in bytes
+        byteArr[2] = (byte)(this.colsNum / 255);
+        byteArr[3] = (byte)(this.colsNum % 255);
+        // represent start position row index in bytes
+        byteArr[4] = (byte)(this.getStartPosition().getRowIndex() / 255);
+        byteArr[5] = (byte)(this.getStartPosition().getRowIndex() % 255);
+        // represent start position col index in bytes
+        byteArr[6] = (byte)(this.getStartPosition().getColumnIndex() / 255);
+        byteArr[7] = (byte)(this.getStartPosition().getColumnIndex() % 255);
+        // represent goal position row index in bytes
+        byteArr[8] = (byte)(this.getStartPosition().getRowIndex() / 255);
+        byteArr[9] = (byte)(this.getStartPosition().getRowIndex() % 255);
+        // represent start position col index in bytes
+        byteArr[10] = (byte)(this.getStartPosition().getColumnIndex() / 255);
+        byteArr[11] = (byte)(this.getStartPosition().getColumnIndex() % 255);
+
+        // represent the maze array in bytes
+        for (int i=0; i<this.rowsNum; i++){
+            for (int j=0; j<this.rowsNum; j++){
+                byteArr[12 + (this.rowsNum * i) + j] = (byte)(this.ArrMaze[i][j]);
+            }
+        }
+        return byteArr;
     }
 }

@@ -271,8 +271,8 @@ public class Maze implements Serializable {
 
         // represent the maze array in bytes
         for (int i=0; i<this.rowsNum; i++){
-            for (int j=0; j<this.rowsNum; j++){
-                byteArr[12 + (this.rowsNum * i) + j] = (byte)(this.ArrMaze[i][j]);
+            for (int j=0; j<this.colsNum; j++){
+                byteArr[12 + (this.colsNum * i) + j] = (byte)(this.ArrMaze[i][j]);
             }
         }
         return byteArr;

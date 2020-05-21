@@ -32,6 +32,7 @@ public class RunSearchOnMaze {
             path.add(cur.getPos());
         }
 
+        domain.printColorSolution(path);
 
         System.out.println("Solution path:");
         ArrayList<AState> solutionPath = solution.getSolutionPath();

@@ -16,6 +16,8 @@ public class RunCompressDecompressMaze {
             // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new
                     FileOutputStream(mazeFileName));
+            // try
+            byte[] arr = maze.toByteArray();
             out.write(maze.toByteArray());
             out.flush();
             out.close();

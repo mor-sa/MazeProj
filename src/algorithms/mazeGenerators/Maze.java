@@ -24,12 +24,12 @@ public class Maze implements Serializable {
     }
 
     public Maze(byte[] byteArr) {
-        this.rowsNum = byteArr[0]*255 + byteArr[1];
-        this.colsNum = byteArr[2]*255 + byteArr[3];
-        int startPosRow = byteArr[4]*255 + byteArr[5];
-        int startPosCol = byteArr[6]*255 + byteArr[7];
-        int goalPosRow = byteArr[8]*255 + byteArr[9];
-        int goalPosCol = byteArr[10]*255 + byteArr[11];
+        this.rowsNum = (byteArr[0]*255) + (byteArr[1] & 0xFF);
+        this.colsNum = (byteArr[2]*255) + (byteArr[3] & 0xFF);
+        int startPosRow = (byteArr[4]*255) + (byteArr[5] & 0xFF);
+        int startPosCol = (byteArr[6]*255) + (byteArr[7] & 0xFF);
+        int goalPosRow = (byteArr[8]*255) + (byteArr[9] & 0xFF);
+        int goalPosCol = (byteArr[10]*255) + (byteArr[11] & 0xFF);
         this.startPos = new Position(startPosRow, startPosCol);
         this.goalPos = new Position(goalPosRow, goalPosCol);
         this.ArrMaze = new int[this.rowsNum][this.colsNum];
@@ -263,11 +263,11 @@ public class Maze implements Serializable {
         byteArr[6] = (byte)(this.getStartPosition().getColumnIndex() / 255);
         byteArr[7] = (byte)(this.getStartPosition().getColumnIndex() % 255);
         // represent goal position row index in bytes
-        byteArr[8] = (byte)(this.getStartPosition().getRowIndex() / 255);
-        byteArr[9] = (byte)(this.getStartPosition().getRowIndex() % 255);
-        // represent start position col index in bytes
-        byteArr[10] = (byte)(this.getStartPosition().getColumnIndex() / 255);
-        byteArr[11] = (byte)(this.getStartPosition().getColumnIndex() % 255);
+        byteArr[8] = (byte)(this.getGoalPosition().getRowIndex() / 255);
+        byteArr[9] = (byte)(this.getGoalPosition().getRowIndex() % 255);
+        // represent goal position col index in bytes
+        byteArr[10] = (byte)(this.getGoalPosition().getColumnIndex() / 255);
+        byteArr[11] = (byte)(this.getGoalPosition().getColumnIndex() % 255);
 
         // represent the maze array in bytes
         for (int i=0; i<this.rowsNum; i++){

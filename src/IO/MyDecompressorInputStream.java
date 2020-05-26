@@ -34,11 +34,11 @@ public class MyDecompressorInputStream extends InputStream {
     public int read(byte[] b) throws IOException {
         try {
             int MazeLen = b.length - 12;
+           // int mod8 = (8 - (MazeLen % 8)) % 8;
             int mod8 = MazeLen % 8;
-
             // The first 12 array elements will be read as they are
             for (int i = 0; i < 12; i++) {
-                b[i] = (byte) read();
+                b[i] = (byte)read();
             }
 
             String strToNum = "";
@@ -63,12 +63,17 @@ public class MyDecompressorInputStream extends InputStream {
             curBinary = "";
             if (mod8 != 0) {
                 int cur = read();
-                curBinary = String.format("%8s", Integer.toBinaryString(cur)).replace(' ', '0');
+               // curBinary = String.format("%8s", Integer.toBinaryString(cur)).replace(' ', '0');
 
-
+                String strToBin = Integer.toBinaryString(cur);
+                curBinary =  String.format("%0"+ ((mod8+1) - strToBin.length() )+"d%s",0 ,strToBin).substring(1,mod8+1);
+                for (int j=0; j < curBinary.length(); j++){
+                //for (int j = curBinary.length() - mod8; j < curBinary.length(); j++){
+                    b[i] = (byte) (curBinary.charAt(j) - 48);
+                    i++;
+                }
             }
-
-
+            in.close();
             return 0;
         }
         catch (IOException e) {

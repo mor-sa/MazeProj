@@ -33,7 +33,6 @@ public class MyCompressorOutputStream extends OutputStream {
                     out.write(255);
                     out.write(0);
                     out.write(b - 255);
-                    b -= 255;
                 }
             }
         }
@@ -59,12 +58,13 @@ public class MyCompressorOutputStream extends OutputStream {
             // and start and goal positions data
             for (int i = 0; i<12; i++){
                 out.write(b[i]);
-                out.flush();
+  //              out.flush();
             }
 
             // We want to put all the other byte array data by dividing by 8
             // and every 8 bytes will be saved as their decimal number.
             int MazeLen = b.length - 12;
+            //int mod8 = (8 - (MazeLen % 8)) % 8;
             int mod8 = MazeLen % 8;
 
             String strToNum = "";
@@ -79,8 +79,8 @@ public class MyCompressorOutputStream extends OutputStream {
                 }
                 // ParseInt by giving it string and radix 2 - decimal number
                 // Which we convert to a single byte.
-                out.write((byte)Integer.parseInt(strToNum));
-                out.flush();
+                out.write((byte)(Integer.parseInt(strToNum,2)));
+ //               out.flush();
                 i += 8;
                 strToNum = "";
             }
@@ -92,8 +92,8 @@ public class MyCompressorOutputStream extends OutputStream {
                 }
                 // ParseInt by giving it string and radix 2 - decimal number
                 // Which we convert to a single byte.
-                out.write((byte)Integer.parseInt(strToNum));
-                out.flush();
+                out.write((byte)Integer.parseInt(strToNum,2));
+  //              out.flush();
             }
             out.close();
 

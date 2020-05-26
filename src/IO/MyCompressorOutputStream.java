@@ -10,6 +10,10 @@ import java.io.OutputStream;
 public class MyCompressorOutputStream extends OutputStream {
     OutputStream out;
 
+    /**
+     * Constructor
+     * @param fileOut - the file output used for the class
+     */
     public MyCompressorOutputStream(OutputStream fileOut){
         this.out = fileOut;
     }
@@ -65,6 +69,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
             String strToNum = "";
             int i =12;
+
             // Representing the maze until size divides by 8
             while ((i < b.length - mod8) && (i + 8 <= b.length)){
                 // Every 8 bytes will be represented as a decimal number

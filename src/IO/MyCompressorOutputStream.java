@@ -21,7 +21,7 @@ public class MyCompressorOutputStream extends OutputStream {
     /**
      * This method gets an int b and write it to the OutputStream.
      * @param b - int b to be written
-     * @throws IOException - if something went wrong
+     * @throws IOException - if something went wrong in I/O
      */
     @Override
     public void write(int b) throws IOException {
@@ -54,17 +54,16 @@ public class MyCompressorOutputStream extends OutputStream {
     @Override
     public void write(byte[] b) throws IOException {
         try{
-            // The first 12 places of the array represents the size of the maze
-            // and start and goal positions data
+            /* The first 12 places of the array represents the size of the maze
+            and start and goal positions data */
             for (int i = 0; i<12; i++){
                 out.write(b[i]);
-  //              out.flush();
+                out.flush();
             }
 
-            // We want to put all the other byte array data by dividing by 8
-            // and every 8 bytes will be saved as their decimal number.
+            /* We want to put all the other byte array data by dividing by 8
+            and every 8 bytes will be saved as their decimal number.*/
             int MazeLen = b.length - 12;
-            //int mod8 = (8 - (MazeLen % 8)) % 8;
             int mod8 = MazeLen % 8;
 
             String strToNum = "";
@@ -72,15 +71,15 @@ public class MyCompressorOutputStream extends OutputStream {
 
             // Representing the maze until size divides by 8
             while ((i < b.length - mod8) && (i + 8 <= b.length)){
-                // Every 8 bytes will be represented as a decimal number
-                // in this for loop we concatenate every 8 bytes to a single string
+                /* Every 8 bytes will be represented as a decimal number
+                in this for loop we concatenate every 8 bytes to a single string */
                 for (int j = i; j < i+8; j++){
                     strToNum += Integer.toString(b[j]);
                 }
-                // ParseInt by giving it string and radix 2 - decimal number
-                // Which we convert to a single byte.
+                /* ParseInt by giving it string and radix 2 - decimal number
+                Which we convert to a single byte. */
                 out.write((byte)(Integer.parseInt(strToNum,2)));
- //               out.flush();
+                out.flush();
                 i += 8;
                 strToNum = "";
             }
@@ -90,10 +89,10 @@ public class MyCompressorOutputStream extends OutputStream {
                 for (int j = i; j < b.length; j++){
                     strToNum += Integer.toString(b[j]);
                 }
-                // ParseInt by giving it string and radix 2 - decimal number
-                // Which we convert to a single byte.
+                /* ParseInt by giving it string and radix 2 - decimal number
+                Which we convert to a single byte.*/
                 out.write((byte)Integer.parseInt(strToNum,2));
-  //              out.flush();
+                out.flush();
             }
             out.close();
 

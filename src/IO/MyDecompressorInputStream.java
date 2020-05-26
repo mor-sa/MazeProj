@@ -34,7 +34,6 @@ public class MyDecompressorInputStream extends InputStream {
     public int read(byte[] b) throws IOException {
         try {
             int MazeLen = b.length - 12;
-           // int mod8 = (8 - (MazeLen % 8)) % 8;
             int mod8 = MazeLen % 8;
             // The first 12 array elements will be read as they are
             for (int i = 0; i < 12; i++) {
@@ -61,14 +60,15 @@ public class MyDecompressorInputStream extends InputStream {
             }
 
             curBinary = "";
+
+            // Needs to represent the remainder from 8
             if (mod8 != 0) {
                 int cur = read();
-               // curBinary = String.format("%8s", Integer.toBinaryString(cur)).replace(' ', '0');
-
                 String strToBin = Integer.toBinaryString(cur);
+
+                // format the binary number to the size of mod8 filling with leading zeros
                 curBinary =  String.format("%0"+ ((mod8+1) - strToBin.length() )+"d%s",0 ,strToBin).substring(1,mod8+1);
                 for (int j=0; j < curBinary.length(); j++){
-                //for (int j = curBinary.length() - mod8; j < curBinary.length(); j++){
                     b[i] = (byte) (curBinary.charAt(j) - 48);
                     i++;
                 }

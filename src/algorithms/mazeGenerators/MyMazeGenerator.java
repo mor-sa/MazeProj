@@ -2,6 +2,9 @@ package algorithms.mazeGenerators;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a maze generator that creates a maze by prim's randomized algorithm.
+ */
 
 public class MyMazeGenerator extends AMazeGenerator{
 

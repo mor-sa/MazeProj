@@ -7,6 +7,7 @@ import algorithms.mazeGenerators.MyMazeGenerator;
 import java.io.*;
 import java.util.Arrays;
 
+
 public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";

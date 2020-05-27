@@ -13,10 +13,10 @@ public class MyDecompressorInputStream extends InputStream {
 
     /**
      * Constructor
-     * @param fileInput - the fileInput used for the class
+     * @param Input - the fileInput used for the class
      */
-    public MyDecompressorInputStream(FileInputStream fileInput) {
-        this.in = fileInput;
+    public MyDecompressorInputStream(InputStream Input) {
+        this.in = Input;
     }
 
     @Override

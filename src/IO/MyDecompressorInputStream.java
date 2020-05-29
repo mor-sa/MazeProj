@@ -25,7 +25,8 @@ public class MyDecompressorInputStream extends InputStream {
     }
 
     /**
-     * Fill an empty byte array with the data we decompress from the fileInputStream.
+     * Fill an empty byte array with the data we decompress from the fileInputStream that
+     * represents a maze.
      * @param b - the empty byte array we are filling.
      * @return int 0.
      * @throws IOException - if something went wrong in I/O
@@ -33,19 +34,25 @@ public class MyDecompressorInputStream extends InputStream {
     @Override
     public int read(byte[] b) throws IOException {
         try {
-            int MazeLen = b.length - 12;
-            int mod8 = MazeLen % 8;
             // The first 12 array elements will be read as they are
             for (int i = 0; i < 12; i++) {
                 b[i] = (byte)read();
             }
+
+            int rowN = (b[0]*255) + (b[1] & 0xFF);
+            int colN = (b[2]*255) + (b[3]& 0xFF);
+
+            int MazeLen = rowN*colN;
+            int actualBlength = MazeLen + 12;
+            int mod8 = MazeLen % 8;
+
 
             String strToNum = "";
             String curBinary;
             int i = 12;
 
             // Filling the byte array until size divides by 8
-            while ((i < b.length - mod8) && (i + 8 <= b.length)) {
+            while ((i < actualBlength - mod8) && (i + 8 <= actualBlength)) {
 
                 // Convert the byte that was read to a binary number
                 int cur = read();
@@ -67,8 +74,8 @@ public class MyDecompressorInputStream extends InputStream {
                 String strToBin = Integer.toBinaryString(cur);
 
                 // format the binary number to the size of mod8 filling with leading zeros
-                curBinary =  String.format("%0"+ ((mod8+1) - strToBin.length() )+"d%s",0 ,strToBin).substring(1,mod8+1);
-                for (int j=0; j < curBinary.length(); j++){
+                curBinary = String.format("%0" + ((mod8 + 1) - strToBin.length()) + "d%s", 0, strToBin).substring(1, mod8 + 1);
+                for (int j = 0; j < curBinary.length(); j++) {
                     b[i] = (byte) (curBinary.charAt(j) - 48);
                     i++;
                 }

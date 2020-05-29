@@ -33,9 +33,11 @@ public class Maze implements Serializable {
         this.startPos = new Position(startPosRow, startPosCol);
         this.goalPos = new Position(goalPosRow, goalPosCol);
         this.ArrMaze = new int[this.rowsNum][this.colsNum];
+        int index = 12;
         for (int i=0; i<this.rowsNum; i++){
             for (int j=0; j<this.colsNum; j++){
-                this.ArrMaze[i][j] = byteArr[12 + (this.rowsNum * i) + j];
+                this.ArrMaze[i][j] = byteArr[index];
+                index++;
             }
         }
     }

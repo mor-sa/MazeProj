@@ -93,8 +93,15 @@ public class Server {
     public static class Configurations{
         public static Properties loadConfig() {
             try {
-                InputStream input = new FileInputStream("resources/config.properties");
+                //set properties
                 Properties properties = new Properties();
+                OutputStream output = new FileOutputStream("Resources/config.properties");
+                properties.setProperty("NumOfThreads" , "4");
+                properties.setProperty("MazeGenerator","MyMazeGenerator");
+                properties.setProperty("SearchingAlgorithm" , "BestFirstSearch");
+                //save properties
+                properties.store(output,null);
+                InputStream input = new FileInputStream("resources/config.properties");
                 properties.load(input);
                 input.close();
                 return properties;

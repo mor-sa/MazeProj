@@ -2,7 +2,9 @@ package algorithms.mazeGenerators;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
 This is a class that defines a maze, it's attributes and methods.
@@ -272,11 +274,32 @@ public class Maze implements Serializable {
         byteArr[11] = (byte)(this.getGoalPosition().getColumnIndex() % 255);
 
         // represent the maze array in bytes
-        for (int i=0; i<this.rowsNum; i++){
-            for (int j=0; j<this.colsNum; j++){
-                byteArr[12 + (this.colsNum * i) + j] = (byte)(this.ArrMaze[i][j]);
+        int index = 12;
+        for (int i = 0; i < this.rowsNum; i++){
+            for (int j = 0; j < this.colsNum; j++){
+                byteArr[index] = (byte)(this.ArrMaze[i][j]);
+                index++;
             }
         }
         return byteArr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maze maze = (Maze) o;
+        return rowsNum == maze.rowsNum &&
+                colsNum == maze.colsNum &&
+                Arrays.equals(ArrMaze, maze.ArrMaze) &&
+                startPos.equals(maze.startPos) &&
+                goalPos.equals(maze.goalPos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(startPos, goalPos, rowsNum, colsNum);
+        result = 31 * result + Arrays.hashCode(ArrMaze);
+        return result;
     }
 }

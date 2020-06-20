@@ -14,4 +14,5 @@ public interface ISearchable {
     AState getGoalState();
     List<AState> getAllPossibleStates(AState s);
     void printColorSolution(ArrayList<Position> path);
+    int hashCode();
 }

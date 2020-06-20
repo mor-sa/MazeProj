@@ -9,6 +9,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
 
     /**
      * Generates a simple maze, which has random walls. To ensure solution, the maze's frame is all passages
+     * and the other positions are randomly filled.
      * @param rows - number of rows wanted in the maze
      * @param cols - number of cols wanted in the maze
      * @return new maze

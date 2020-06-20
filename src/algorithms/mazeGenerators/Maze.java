@@ -2,7 +2,9 @@ package algorithms.mazeGenerators;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
 This is a class that defines a maze, it's attributes and methods.
@@ -24,18 +26,20 @@ public class Maze implements Serializable {
     }
 
     public Maze(byte[] byteArr) {
-        this.rowsNum = byteArr[0]*255 + byteArr[1];
-        this.colsNum = byteArr[2]*255 + byteArr[3];
-        int startPosRow = byteArr[4]*255 + byteArr[5];
-        int startPosCol = byteArr[6]*255 + byteArr[7];
-        int goalPosRow = byteArr[8]*255 + byteArr[9];
-        int goalPosCol = byteArr[10]*255 + byteArr[11];
+        this.rowsNum = (byteArr[0]*255) + (byteArr[1] & 0xFF);
+        this.colsNum = (byteArr[2]*255) + (byteArr[3] & 0xFF);
+        int startPosRow = (byteArr[4]*255) + (byteArr[5] & 0xFF);
+        int startPosCol = (byteArr[6]*255) + (byteArr[7] & 0xFF);
+        int goalPosRow = (byteArr[8]*255) + (byteArr[9] & 0xFF);
+        int goalPosCol = (byteArr[10]*255) + (byteArr[11] & 0xFF);
         this.startPos = new Position(startPosRow, startPosCol);
         this.goalPos = new Position(goalPosRow, goalPosCol);
         this.ArrMaze = new int[this.rowsNum][this.colsNum];
+        int index = 12;
         for (int i=0; i<this.rowsNum; i++){
             for (int j=0; j<this.colsNum; j++){
-                this.ArrMaze[i][j] = byteArr[12 + (this.rowsNum * i) + j];
+                this.ArrMaze[i][j] = byteArr[index];
+                index++;
             }
         }
     }
@@ -263,18 +267,39 @@ public class Maze implements Serializable {
         byteArr[6] = (byte)(this.getStartPosition().getColumnIndex() / 255);
         byteArr[7] = (byte)(this.getStartPosition().getColumnIndex() % 255);
         // represent goal position row index in bytes
-        byteArr[8] = (byte)(this.getStartPosition().getRowIndex() / 255);
-        byteArr[9] = (byte)(this.getStartPosition().getRowIndex() % 255);
-        // represent start position col index in bytes
-        byteArr[10] = (byte)(this.getStartPosition().getColumnIndex() / 255);
-        byteArr[11] = (byte)(this.getStartPosition().getColumnIndex() % 255);
+        byteArr[8] = (byte)(this.getGoalPosition().getRowIndex() / 255);
+        byteArr[9] = (byte)(this.getGoalPosition().getRowIndex() % 255);
+        // represent goal position col index in bytes
+        byteArr[10] = (byte)(this.getGoalPosition().getColumnIndex() / 255);
+        byteArr[11] = (byte)(this.getGoalPosition().getColumnIndex() % 255);
 
         // represent the maze array in bytes
-        for (int i=0; i<this.rowsNum; i++){
-            for (int j=0; j<this.colsNum; j++){
-                byteArr[12 + (this.colsNum * i) + j] = (byte)(this.ArrMaze[i][j]);
+        int index = 12;
+        for (int i = 0; i < this.rowsNum; i++){
+            for (int j = 0; j < this.colsNum; j++){
+                byteArr[index] = (byte)(this.ArrMaze[i][j]);
+                index++;
             }
         }
         return byteArr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maze maze = (Maze) o;
+        return rowsNum == maze.rowsNum &&
+                colsNum == maze.colsNum &&
+                Arrays.equals(ArrMaze, maze.ArrMaze) &&
+                startPos.equals(maze.startPos) &&
+                goalPos.equals(maze.goalPos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(startPos, goalPos, rowsNum, colsNum);
+        result = 31 * result + Arrays.hashCode(ArrMaze);
+        return result;
     }
 }

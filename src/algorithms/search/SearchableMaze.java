@@ -2,6 +2,8 @@ package algorithms.search;
 
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 This is a class which is an object adapter for maze to be implement ISearchable interface.
  */
 
-public class SearchableMaze implements ISearchable{
+public class SearchableMaze implements ISearchable, Serializable {
     private Maze maze;
 
     public SearchableMaze(Maze maze) {
@@ -55,4 +57,6 @@ public class SearchableMaze implements ISearchable{
     public void printColorSolution(ArrayList<Position> path){
         this.maze.printColorSolution(path);
     }
+
+    public int hashCode(){return this.maze.hashCode();}
 }

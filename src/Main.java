@@ -23,6 +23,7 @@
 import Model.IModel;
 import Model.MyModel;
 import View.MazeDisplayer;
+import View.MyViewController;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,22 +31,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Observer;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MazeWindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
         Parent root = fxmlLoader.load();
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Pink Panther Maze");
         primaryStage.setScene(new Scene(root, 900, 900));
         primaryStage.show();
 
-        IModel model = new MyModel();
+        MyModel model = new MyModel();
+        model.startServers();
         MyViewModel viewModel = new MyViewModel(model);
-//        View view = fxmlLoader.getController();
-//        view.setViewModel(viewModel);
-//        viewModel.addObserver(view);
+        model.addObserver((Observer)viewModel);
+        MyViewController viewController = fxmlLoader.getController();
+        viewController.setViewModel(viewModel);
+        viewModel.addObserver(viewController);
 
     }
 

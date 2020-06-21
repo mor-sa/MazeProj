@@ -10,9 +10,9 @@ import java.util.Observer;
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
-    private int [][] maze;
-    private int rowChar;
-    private int colChar;
+    private Maze maze;
+    private int rowCharInd;
+    private int colCharInd;
 
 
     public MyViewModel(IModel model) {
@@ -21,63 +21,32 @@ public class MyViewModel extends Observable implements Observer {
         this.maze = null;
     }
 
-
-    public int[][] getMaze() {
+    public Maze getMaze() {
         return maze;
     }
-
-
     public int getRowChar() {
-        return rowChar;
+        return rowCharInd;
     }
-
     public int getColChar() {
-        return colChar;
+        return colCharInd;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-//        if(o instanceof IModel)
-//        {
-//            if(maze == null)//generateMaze
-//            {
-//                this.maze = model.getMaze();
-//            }
-//            else {
-//                int[][] maze = model.getMaze();
-//
-//                if (maze == this.maze)//Not generateMaze
-//                {
-//                    int rowChar = model.getRowChar();
-//                    int colChar = model.getColChar();
-//                    if(this.colChar == colChar && this.rowChar == rowChar)//Solve Maze
-//                    {
-//                        model.getSolution();
-//                    }
-//                    else//Update location
-//                    {
-//                        this.rowChar = rowChar;
-//                        this.colChar = colChar;
-//                    }
-//
-//
-//                }
-//                else//GenerateMaze
-//                {
-//                    this.maze = maze;
-//                }
-//            }
-//
-//            setChanged();
-//            notifyObservers();
-//        }
+        if(o == this.model)
+        {
+            this.colCharInd = this.model.getColChar();
+            this.rowCharInd = this.model.getRowChar();
+            setChanged();
+            notifyObservers();
+        }
     }
 
 
-    //public void generateMaze(int row,int col)
-//    {
-//        this.model.generateRandomMaze(row,col);
-//    }
+    public void generateMaze(int row,int col)
+    {
+        this.model.generateMaze(row,col);
+    }
 
     public void moveCharacter(KeyEvent keyEvent)
     {

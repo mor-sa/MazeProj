@@ -56,7 +56,7 @@ public class MyModel extends Observable implements IModel{
                         toServer.flush();
                         byte[] compressedMaze = (byte[])fromServer.readObject();
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[12 + (row+2) + (col+2)];
+                        byte[] decompressedMaze = new byte[12 + (row+2) * (col+2)];
                         is.read(decompressedMaze);
                         MyModel.this.maze = new Maze(decompressedMaze);
                     } catch (Exception e) {
@@ -66,6 +66,9 @@ public class MyModel extends Observable implements IModel{
                 }
             });
             client.communicateWithServer();
+            colCharInd = this.maze.getStartPosition().getColumnIndex();
+            rowCharInd = this.maze.getStartPosition().getRowIndex();
+
         } catch (UnknownHostException var1) {
             var1.printStackTrace();
         }
@@ -166,4 +169,6 @@ public class MyModel extends Observable implements IModel{
     public Maze getMaze() {
         return maze;
     }
+
+    public int[][] getArrMaze(){return maze.getArrMaze();}
 }

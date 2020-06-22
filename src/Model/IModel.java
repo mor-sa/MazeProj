@@ -1,7 +1,10 @@
 package Model;
 
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Observer;
 
 public interface IModel {
@@ -12,5 +15,7 @@ public interface IModel {
     public int getColChar();
     public void assignObserver(Observer o);
     public void solveMaze();
-    public void getSolution();
+    public void exit();
+    public void Save(File file);
+    public ArrayList<Position> getSolution();
 }

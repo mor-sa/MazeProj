@@ -4,6 +4,7 @@ import Model.IModel;
 import algorithms.mazeGenerators.*;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -48,6 +49,14 @@ public class MyViewModel extends Observable implements Observer {
         this.model.generateMaze(row,col);
     }
 
+    /**
+     * This method is using the model's save method to save the file.
+     * @param file
+     */
+    public void Save(File file){
+        this.model.Save(file);
+    }
+
     public void moveCharacter(KeyEvent keyEvent)
     {
         int direction = -1;
@@ -79,5 +88,11 @@ public class MyViewModel extends Observable implements Observer {
     {
         model.getSolution();
     }
+
+    public void Exit(){
+        this.model.exit();
+    }
+
+
 }
 

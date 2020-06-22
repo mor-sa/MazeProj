@@ -30,6 +30,9 @@ public class MyModel extends Observable implements IModel{
 
     }
 
+    /**
+     * Starting the servers
+     */
     public void startServers(){
         this.serverMazeGenerator = new Server(5400, 1000, (IServerStrategy)new ServerStrategyGenerateMaze());
         this.serverSolveMaze = new Server(5401, 1000, (IServerStrategy)new ServerStrategySolveSearchProblem());
@@ -38,11 +41,20 @@ public class MyModel extends Observable implements IModel{
 
     }
 
+    /**
+     * Stopping the servers
+     */
     public void stopServers(){
         this.serverMazeGenerator.stop();
         this.serverSolveMaze.stop();
     }
 
+    /**
+     * This method will generate a new maze by using the Communicate with server method from Client.
+     * We first define the client.
+     * @param row - number of rows in the new maze
+     * @param col - number of cols in the new maze
+     */
     public void generateMaze(final int row, final int col){
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
@@ -76,6 +88,10 @@ public class MyModel extends Observable implements IModel{
         notifyObservers();
     }
 
+    /**
+     * This method gets an int that represents direction, and then changes the character's location accordingly.
+     * @param direction - which direction the character went and needs to be updated
+     */
     public void updateCharacterLocation(int direction)
     {
         /*
@@ -98,11 +114,11 @@ public class MyModel extends Observable implements IModel{
                 break;
             case 3: //Left
                 //  if(colChar!=0)
-                rowCharInd--;
+                colCharInd--;
                 break;
             case 4: //Right
                 //  if(colChar!=maze[0].length-1)
-                rowCharInd++;
+                colCharInd++;
                 break;
 
         }
@@ -116,7 +132,7 @@ public class MyModel extends Observable implements IModel{
     }
 
     public int getColChar() {
-        return rowCharInd;
+        return colCharInd;
     }
 
     @Override
@@ -124,6 +140,9 @@ public class MyModel extends Observable implements IModel{
         this.addObserver(o);
     }
 
+    /**
+     * This method solves the maze and saves the solution as ArrayList<Position>
+     */
     @Override
     public void solveMaze() {
         //Solving maze
@@ -161,9 +180,8 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public void getSolution() {
-        //return this.solution;
-
+    public ArrayList<Position> getSolution() {
+        return this.SolPath;
     }
 
     public Maze getMaze() {
@@ -171,4 +189,37 @@ public class MyModel extends Observable implements IModel{
     }
 
     public int[][] getArrMaze(){return maze.getArrMaze();}
+
+    public Position getStartPosition(){
+        return this.maze.getStartPosition();
+    }
+
+    public Position getGoalPosition(){
+        return this.maze.getGoalPosition();
+    }
+
+    /**
+     * Method to save the MyModel's maze to a given file.
+     * @param file - the maze will be saved on
+     */
+    public void Save(File file){
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
+            out.writeObject(this.maze);
+            out.flush();
+            out.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method will close the servers and exit the program.
+     */
+    public void exit(){
+        this.stopServers();
+        System.exit(0);
+    }
 }

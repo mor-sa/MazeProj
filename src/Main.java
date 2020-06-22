@@ -41,7 +41,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Pink Panther Maze");
-        primaryStage.setScene(new Scene(root, 900, 900));
+        primaryStage.setScene(new Scene(root, 450, 450));
         primaryStage.show();
 
         MyModel model = new MyModel();

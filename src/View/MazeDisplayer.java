@@ -14,12 +14,19 @@ public class MazeDisplayer extends Canvas {
 
     private int [][] maze;
 
-    private int row_player =0;
-    private int col_player =0;
+    private int row_player = 0;
+    private int col_player = 0;
+
+    private Image goalImage;
+    private Image playerImage;
+    private Image wallImage;
+    private Image passageImage;
 
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNamePassage = new SimpleStringProperty();
+    StringProperty imageFileNameGoal = new SimpleStringProperty();
+
 
     public String getImageFileNameWall() {
         return imageFileNameWall.get();
@@ -37,12 +44,20 @@ public class MazeDisplayer extends Canvas {
         this.imageFileNamePlayer.set(imageFileNamePlayer);
     }
 
+    public void setImageFileNameGoal(String imageFileNameGoal){
+        this.imageFileNameGoal.set(imageFileNameGoal);
+    }
+
     public String getImageFileNamePassage(){
         return imageFileNamePassage.get();
     }
 
     public void setImageFileNamePassage(String imageFileNamePassage){
         this.imageFileNamePassage.set(imageFileNamePassage);
+    }
+
+    public String getImageFileNameGoal(){
+        return this.imageFileNameGoal.get();
     }
 
 
@@ -59,9 +74,7 @@ public class MazeDisplayer extends Canvas {
     public void set_player_position(int row, int col){
         this.row_player = row;
         this.col_player = col;
-
-        draw();
-
+//        draw();
     }
 
 
@@ -88,11 +101,11 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.setFill(Color.RED);
             double w,h;
             //Draw Maze
-            Image wallImage = null;
-            Image passageImage = null;
+            this.wallImage = null;
+            this.passageImage = null;
             try {
-                wallImage = new Image(new FileInputStream(getImageFileNameWall()));
-                passageImage = new Image(new FileInputStream(getImageFileNamePassage()));
+                this.wallImage = new Image(new FileInputStream(getImageFileNameWall()));
+                this.passageImage = new Image(new FileInputStream(getImageFileNamePassage()));
             } catch (FileNotFoundException e) {
                 System.out.println("There is no file....");
             }
@@ -125,9 +138,9 @@ public class MazeDisplayer extends Canvas {
 
             double h_player = getRow_player() * cellHeight;
             double w_player = getCol_player() * cellWidth;
-            Image playerImage = null;
+            this.playerImage = null;
             try {
-                playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
+                this.playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
             } catch (FileNotFoundException e) {
                 System.out.println("There is no Image player....");
             }

@@ -22,7 +22,7 @@ public class MyViewModel extends Observable implements Observer {
     }
 
     public Maze getMaze() {
-        return maze;
+        return this.model.getMaze();
     }
     public int getRowChar() {
         return rowCharInd;

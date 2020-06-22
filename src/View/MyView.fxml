@@ -82,7 +82,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" height="354.0" imageFileNamePlayer="./src/Resources/Images/sonic.png" imageFileNameWall="./src/Resources/Images/wall1.jpg" layoutX="57.0" layoutY="10.0" width="350.0" />
+             <MazeDisplayer fx:id="mazeDisplayer" height="354.0" imageFileNamePlayer="./Resources/Images/PinkPanther.png" imageFileNameWall="./Resources/Images/GreyBrick1.jpg" imageFileNamePassage="./Resources/Images/LightPinkPassage2.jpg" layoutX="57.0" layoutY="10.0" width="350.0" />
          </children>
       </Pane>
    </center>

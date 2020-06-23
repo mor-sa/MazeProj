@@ -159,8 +159,8 @@ public class MyModel extends Observable implements IModel{
     @Override
     public void solveMaze(int rowStartPos, int colStartPos) {
         //Solving maze
+        Position recovery = maze.getStartPosition();
         try {
-            Position recovery = maze.getStartPosition();
             maze.setStartPosition(rowStartPos, colStartPos);
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
@@ -190,6 +190,7 @@ public class MyModel extends Observable implements IModel{
             });
             client.communicateWithServer();
         } catch (UnknownHostException e) {
+            maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
             e.printStackTrace();
         }
         setChanged();

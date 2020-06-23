@@ -51,8 +51,6 @@ public class MyViewModel extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if(o == this.model)
         {
-            //this.colCharInd = this.model.getColChar();
-            //this.rowCharInd = this.model.getRowChar();
             setChanged();
             notifyObservers();
         }

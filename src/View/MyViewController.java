@@ -3,60 +3,61 @@ package View;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
+import javax.print.attribute.standard.Media;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 public class MyViewController implements IView, Observer {
-    private MyViewModel myViewModel;
+
     @FXML
     public TextField rowInputTextField;
-    @FXML
     public TextField colInputTextField;
-    @FXML
     public Button GenerateBtn;
-    @FXML
+    public Button SolveBtn;
+    public MenuItem NewBtn;
+    public MenuItem SaveBtn;
+
+    private MyViewModel myViewModel;
     public MazeDisplayer mazeDisplayer;
-
-    @FXML
-    public Label lbl_player_row;
-    @FXML
-    public Label lbl_player_column;
-
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
     private Maze maze;
     private int rowCharInd;
     private int colCharInd;
-    private boolean showSolution = false;
 
     public void generateMaze()
     {
+        SolveBtn.setDisable(false);
+        SaveBtn.setDisable(false);
+        NewBtn.setDisable(false);
         String rowInput = rowInputTextField.getText();
         String colInput = colInputTextField.getText();
         if (!rowInput.matches("\\d*") || !colInput.matches("\\d*") || rowInput.equals("") || colInput.equals("")){
-            showAlert("Please insert numbers between 2 and 1000");
+            showAlert("Please insert numbers between 2 and 1000", "Warning");
         }
         else {
             int rows = Integer.parseInt(rowInput);
             int cols = Integer.parseInt(colInput);
             if ((rows < 2 || cols < 2 || rows > 1000 || cols > 1000)){
-                showAlert("Please insert numbers between 2 and 1000");
+                showAlert("Please insert numbers between 2 and 1000", "Warning");
             }
             else {
                 myViewModel.generateMaze(rows, cols);
@@ -81,9 +82,11 @@ public class MyViewController implements IView, Observer {
         this.myViewModel = viewModel;
     }
 
-    public void showAlert(String message)
+    public void showAlert(String message, String title)
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);;
         alert.show();
     }
@@ -120,8 +123,7 @@ public class MyViewController implements IView, Observer {
                     //Check if solved
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
-                        myViewModel.getSolution();
-                        showAlert("Good Job!");
+                        showAlert("You found the diamond!", "Congratulations!");
                     }
                     //Check if user asked for solution
                     else if (myViewModel.getSolPath().size() != 0)
@@ -130,9 +132,6 @@ public class MyViewController implements IView, Observer {
                     }
                     else
                     {
-//                        set_update_player_position_row(rowFromViewModel + "");
-//                        set_update_player_position_col(colFromViewModel + "");
-//                        this.mazeDisplayer.set_player_position(rowFromViewModel,colFromViewModel);
                         drawMaze();
                     }
                 }
@@ -153,15 +152,25 @@ public class MyViewController implements IView, Observer {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                System.out.println("Width: " + newSceneWidth);
-                drawMaze();
+                if (myViewModel.getSolPath().size() != 0)
+                {
+                    MyViewController.this.drawSolution(myViewModel.getSolPath());
+                }
+                else{
+                    MyViewController.this.drawMaze();
+                }
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
-                drawMaze();
+                if (myViewModel.getSolPath().size() != 0)
+                {
+                    MyViewController.this.drawSolution(myViewModel.getSolPath());
+                }
+                else{
+                    MyViewController.this.drawMaze();
+                }
             }
         });
     }
@@ -169,49 +178,52 @@ public class MyViewController implements IView, Observer {
     public void saveMaze(){
         // No Maze was generated
         if(this.myViewModel.getMaze() == null){
-            showAlert("Please generate a maze first");
+            showAlert("Please generate a maze first", "Error");
         }
         else{
             FileChooser filechooser = new FileChooser();
             filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
             filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
             filechooser.setTitle("Saving the maze");
-            File file = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
-            if (file != null)
-                this.myViewModel.Save(file);
-            else{
-                showAlert("Something went wrong");
+            File savedFile = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
+            if (savedFile != null) {
+                try {
+                    this.myViewModel.Save(savedFile);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    showAlert("Something went wrong", "Error");
+                    return;
+                }
+                showAlert("File saved: " + savedFile.toString(), "Information");
             }
         }
     }
 
     public void Exit(){
         this.myViewModel.Exit();
+        Platform.exit();
     }
 
     public void Help(){
-
+        String message = "Maze game: the Panther wants to find the diamond\n" +
+                "Player is panter, goal is the diamond\n" +
+                "You can move vertically, horizontally and diagonally as long as there is no wall blocking you\n" +
+                "Diagonal movement is allowed only if you can get to the same position by two movements, horizontal and vertical";
+        String title = "About";
+        showAlert(message, title);
     }
 
+    public void About(){
+        String message = "Algorithm used to create the maze is Prim's algorithn\n" +
+                "Solutions can be searched with 3 algorithms: BFS, DFS and BFS with priority queue\n" +
+                "Brought to you by Ronen Aranovich and Mor Saranga";
+        String title = "About";
+        showAlert(message, title);
+    }
 
     @Override
     public void displayMaze(int[][] arrMaze, int rowChar, int colChar) {
         //mazeDisplayer.drawMaze(maze.getArrMaze());
-    }
-
-    public String get_update_player_position_row() {
-        return update_player_position_row.get();
-    }
-
-    public void set_update_player_position_row(String update_player_position_row) {
-        this.update_player_position_row.set(update_player_position_row);
-    }
-
-    public String get_update_player_position_col() {
-        return update_player_position_col.get();
-    }
-
-    public void set_update_player_position_col(String update_player_position_col) {
-        this.update_player_position_col.set(update_player_position_col);
     }
 }

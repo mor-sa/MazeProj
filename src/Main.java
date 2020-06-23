@@ -35,12 +35,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+import javax.print.attribute.standard.Media;
 import java.util.Observer;
 import java.util.Optional;
 
@@ -145,7 +147,6 @@ public class Main extends Application {
         viewController.setResizeEvent(scene);
         viewController.setViewModel(viewModel);
         viewModel.addObserver(viewController);
-
         SetStageCloseEvent(primaryStage, model);
         primaryStage.show();
     }
@@ -154,6 +155,7 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
+                alert.setHeaderText(null);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     // ... user chose OK

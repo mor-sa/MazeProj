@@ -3,81 +3,63 @@ package ViewModel;
 import Model.IModel;
 import algorithms.mazeGenerators.*;
 import javafx.scene.input.KeyEvent;
-
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
-    private int [][] maze;
-    private int rowChar;
-    private int colChar;
+    //private Maze maze;
+    //private int rowCharInd;
+    //private int colCharInd;
 
 
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this);
-        this.maze = null;
+        //this.maze = null;
     }
 
-
-    public int[][] getMaze() {
-        return maze;
+    public Maze getMaze() {
+        return this.model.getMaze();
     }
 
+    public ArrayList<Position> getSolPath() {
+        return model.getSolutionPath();
+    }
 
     public int getRowChar() {
-        return rowChar;
+        return this.model.getRowChar();
     }
 
     public int getColChar() {
-        return colChar;
+        return this.model.getColChar();
+    }
+
+    public int getRowGoal(){
+        return this.model.getMaze().getGoalPosition().getRowIndex();
+    }
+
+    public int getColGoal(){
+        return this.model.getMaze().getGoalPosition().getColumnIndex();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-//        if(o instanceof IModel)
-//        {
-//            if(maze == null)//generateMaze
-//            {
-//                this.maze = model.getMaze();
-//            }
-//            else {
-//                int[][] maze = model.getMaze();
-//
-//                if (maze == this.maze)//Not generateMaze
-//                {
-//                    int rowChar = model.getRowChar();
-//                    int colChar = model.getColChar();
-//                    if(this.colChar == colChar && this.rowChar == rowChar)//Solve Maze
-//                    {
-//                        model.getSolution();
-//                    }
-//                    else//Update location
-//                    {
-//                        this.rowChar = rowChar;
-//                        this.colChar = colChar;
-//                    }
-//
-//
-//                }
-//                else//GenerateMaze
-//                {
-//                    this.maze = maze;
-//                }
-//            }
-//
-//            setChanged();
-//            notifyObservers();
-//        }
+        if(o == this.model)
+        {
+            //this.colCharInd = this.model.getColChar();
+            //this.rowCharInd = this.model.getRowChar();
+            setChanged();
+            notifyObservers();
+        }
     }
 
-
-    //public void generateMaze(int row,int col)
-//    {
-//        this.model.generateRandomMaze(row,col);
-//    }
+    public void generateMaze(int row,int col)
+    {
+        this.model.generateMaze(row,col);
+    }
 
     public void moveCharacter(KeyEvent keyEvent)
     {
@@ -85,19 +67,18 @@ public class MyViewModel extends Observable implements Observer {
 
         switch (keyEvent.getCode()){
             case UP:
-                direction = 1;
+                direction = 8;
                 break;
             case DOWN:
                 direction = 2;
                 break;
             case LEFT:
-                direction = 3;
-                break;
-            case RIGHT:
                 direction = 4;
                 break;
+            case RIGHT:
+                direction = 6;
+                break;
         }
-
         model.updateCharacterLocation(direction);
     }
 
@@ -108,7 +89,7 @@ public class MyViewModel extends Observable implements Observer {
 
     public void getSolution()
     {
-        model.getSolution();
+        //model.getSolution();
     }
 }
 

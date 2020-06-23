@@ -2,18 +2,19 @@ package View;
 
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import com.sun.tools.javac.util.StringUtils;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Observable;
@@ -23,6 +24,7 @@ public class MyViewController implements IView, Observer {
     private MyViewModel myViewModel;
     @FXML
     public TextField rowInputTextField;
+    @FXML
     public TextField colInputTextField;
     public Button GenerateBtn;
     public Button SolveBtn;
@@ -38,11 +40,12 @@ public class MyViewController implements IView, Observer {
 
 
 
-
-
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
     private Maze maze;
+    private int rowCharInd;
+    private int colCharInd;
+    private boolean showSolution = false;
 
     public void generateMaze()
     {
@@ -83,10 +86,8 @@ public class MyViewController implements IView, Observer {
         this.update_player_position_col.set(update_player_position_col);
     }
 
-    public void solveMaze()
-    {
+    public void solveMaze(){
         myViewModel.solveMaze();
-
     }
 
 
@@ -99,12 +100,9 @@ public class MyViewController implements IView, Observer {
         alert.show();
     }
 
-
     public void keyPressed(KeyEvent keyEvent) {
-
         myViewModel.moveCharacter(keyEvent);
         keyEvent.consume();
-
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
@@ -119,35 +117,42 @@ public class MyViewController implements IView, Observer {
             if(maze == null)//generateMaze
             {
                 this.maze = myViewModel.getMaze();
+                this.rowCharInd = myViewModel.getRowChar();
+                this.colCharInd = myViewModel.getColChar();
                 drawMaze();
             }
-            else {
+            else
+            {
                 Maze maze = myViewModel.getMaze();
-
                 if (maze == this.maze)//Not generateMaze
                 {
-                    int rowChar = mazeDisplayer.getRow_player();
-                    int colChar = mazeDisplayer.getCol_player();
-                    int rowFromViewModel = myViewModel.getRowChar();
-                    int colFromViewModel = myViewModel.getColChar();
-
-                    if(rowFromViewModel == rowChar && colFromViewModel == colChar)//Solve Maze
+                    //Update location
+                    this.rowCharInd = myViewModel.getRowChar();
+                    this.colCharInd = myViewModel.getColChar();
+                    //Check if solved
+                    if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
                         myViewModel.getSolution();
-                        showAlert("Solving Maze ... ");
+                        showAlert("Good Job!");
                     }
-                    else//Update location
+                    //Check if user asked for solution
+                    else if (myViewModel.getSolPath().size() != 0)
                     {
-                        set_update_player_position_row(rowFromViewModel + "");
-                        set_update_player_position_col(colFromViewModel + "");
-                        this.mazeDisplayer.set_player_position(rowFromViewModel,colFromViewModel);
+                        drawSolution(myViewModel.getSolPath());
                     }
-
-
+                    else
+                    {
+//                        set_update_player_position_row(rowFromViewModel + "");
+//                        set_update_player_position_col(colFromViewModel + "");
+//                        this.mazeDisplayer.set_player_position(rowFromViewModel,colFromViewModel);
+                        drawMaze();
+                    }
                 }
                 else//GenerateMaze
                 {
                     this.maze = maze;
+                    this.rowCharInd = myViewModel.getRowChar();
+                    this.colCharInd = myViewModel.getColChar();
                     drawMaze();
                 }
             }
@@ -156,8 +161,13 @@ public class MyViewController implements IView, Observer {
 
     public void drawMaze()
     {
-        mazeDisplayer.drawMaze(maze.getArrMaze());
+        mazeDisplayer.drawMaze(maze.getArrMaze(),rowCharInd,colCharInd, maze.getGoalPosition().getRowIndex(), maze.getGoalPosition().getColumnIndex());
     }
+
+    public void drawSolution(ArrayList<Position> path){
+        mazeDisplayer.drawSolution(rowCharInd, colCharInd, path);
+    }
+
 
     public void exitGame(){
         this.myViewModel.Exit();
@@ -198,9 +208,8 @@ public class MyViewController implements IView, Observer {
 
     }
 
-
     @Override
-    public void displayMaze(int[][] intArr) {
-
+    public void displayMaze(int[][] arrMaze, int rowChar, int colChar) {
+        //mazeDisplayer.drawMaze(maze.getArrMaze());
     }
 }

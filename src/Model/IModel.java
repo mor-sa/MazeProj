@@ -15,7 +15,7 @@ public interface IModel {
     public int getColChar();
     public void assignObserver(Observer o);
     public void solveMaze();
+    public ArrayList<Position> getSolutionPath();
     public void exit();
     public void Save(File file);
-    public ArrayList<Position> getSolution();
 }

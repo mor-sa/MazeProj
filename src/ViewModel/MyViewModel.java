@@ -3,7 +3,7 @@ package ViewModel;
 import Model.IModel;
 import algorithms.mazeGenerators.*;
 import javafx.scene.input.KeyEvent;
-
+import java.util.ArrayList;
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,25 +19,41 @@ public class MyViewModel extends Observable implements Observer {
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this);
-        this.maze = null;
+      //  this.maze = model.getMaze();
     }
 
     public Maze getMaze() {
         return this.model.getMaze();
     }
+
+
+    public ArrayList<Position> getSolPath() {
+        return model.getSolutionPath();
+    }
+
     public int getRowChar() {
-        return rowCharInd;
+//        return rowCharInd;
+        return this.model.getRowChar();
     }
     public int getColChar() {
-        return colCharInd;
+//        return colCharInd;
+        return this.model.getColChar();
+    }
+
+    public int getRowGoal(){
+        return this.model.getMaze().getGoalPosition().getRowIndex();
+    }
+
+    public int getColGoal(){
+        return this.model.getMaze().getGoalPosition().getColumnIndex();
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if(o == this.model)
         {
-            this.colCharInd = this.model.getColChar();
-            this.rowCharInd = this.model.getRowChar();
+            //this.colCharInd = this.model.getColChar();
+            //this.rowCharInd = this.model.getRowChar();
             setChanged();
             notifyObservers();
         }
@@ -63,19 +79,18 @@ public class MyViewModel extends Observable implements Observer {
 
         switch (keyEvent.getCode()){
             case UP:
-                direction = 1;
+                direction = 8;
                 break;
             case DOWN:
                 direction = 2;
                 break;
             case LEFT:
-                direction = 3;
-                break;
-            case RIGHT:
                 direction = 4;
                 break;
+            case RIGHT:
+                direction = 6;
+                break;
         }
-
         model.updateCharacterLocation(direction);
     }
 
@@ -86,7 +101,7 @@ public class MyViewModel extends Observable implements Observer {
 
     public void getSolution()
     {
-        model.getSolution();
+        //model.getSolution();
     }
 
     public void Exit(){

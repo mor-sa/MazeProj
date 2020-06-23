@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import View.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,14 +8,13 @@
 
 <BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
-      <MenuBar fx:id="TopMenuBar" prefHeight="36.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <MenuBar fx:id="TopMenuBar" prefHeight="36.0" prefWidth="459.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu fx:id="btn_MenuFile" mnemonicParsing="false" text="File">
             <items>
                 <MenuItem mnemonicParsing="false" text="New" onAction="#generateMaze"/>
                 <MenuItem mnemonicParsing="false" text="Save" onAction="#saveMaze"/>
                 <MenuItem mnemonicParsing="false" text="Load" />
-
             </items>
           </Menu>
           <Menu fx:id="btn_optionsMenu" mnemonicParsing="false" text="Options">
@@ -29,7 +29,7 @@
       </MenuBar>
    </top>
    <bottom>
-      <GridPane fx:id="PlayerPrefsGrid" prefHeight="69.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+       <GridPane fx:id="PlayerPrefsGrid" prefHeight="69.0" prefWidth="300.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="129.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="148.0" />
@@ -41,9 +41,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="lbl_rowNum" prefHeight="51.0" prefWidth="136.0" text=" Rows:" translateX="20.0" />
-            <Label fx:id="lbl_colNum" text=" Columns:" translateX="5.0" translateY="-3.0" GridPane.rowIndex="1" />
-            <TextField fx:id="rowInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" text="10">
+             <Label fx:id="lbl_rowNum" prefHeight="51.0" prefWidth="136.0" text=" Rows:" translateX="20.0" />
+             <Label fx:id="lbl_colNum" text=" Columns:" translateX="5.0" translateY="-3.0" GridPane.rowIndex="1" />
+             <TextField fx:id="rowInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -51,7 +51,7 @@
                   <Insets bottom="1.0" />
                </padding>
             </TextField>
-            <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" translateY="-3.0" GridPane.columnIndex="1" GridPane.rowIndex="1" text="10">
+            <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" translateY="-3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -63,7 +63,7 @@
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding></Button>
-            <Button fx:id="SolveBtn" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="Solve" translateX="30.0" translateY="-3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="SolveBtn" mnemonicParsing="false" onAction="#solveMaze" prefHeight="24.0" prefWidth="125.0" text="Solve" translateX="30.0" translateY="-3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding></Button>
@@ -73,7 +73,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" height="350.0" imageFileNameGoal="./Resources/Images/PinkDiamond.png" imageFileNamePlayer="./Resources/Images/PinkPanther.png" imageFileNameWall="./Resources/Images/GreyBrick1.jpg" imageFileNamePassage="./Resources/Images/LightPinkPassage2.jpg" onKeyPressed="#keyPressed" layoutX="50.0" layoutY="0.0" width="350.0" />
+             <MazeDisplayer fx:id="mazeDisplayer" height="294.0" imageFileNameGoal="./Resources/Images/PinkDiamond.png" imageFileNamePassage="./Resources/Images/LightPinkPassage2.jpg" imageFileNamePlayer="./Resources/Images/PinkPanther.png" imageFileNameStep="./Resources/Images/step.png" imageFileNameWall="./Resources/Images/GreyBrick1.jpg" onKeyPressed="#keyPressed" layoutX="50.0" layoutY="0.0" width="350.0" />
          </children>
       </Pane>
    </center>

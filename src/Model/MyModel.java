@@ -157,9 +157,11 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public void solveMaze() {
+    public void solveMaze(int rowStartPos, int colStartPos) {
         //Solving maze
         try {
+            Position recovery = maze.getStartPosition();
+            maze.setStartPosition(rowStartPos, colStartPos);
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
@@ -180,6 +182,7 @@ public class MyModel extends Observable implements IModel{
                             MyModel.this.SolPath.add(curPos);
                         }
                     } catch (Exception e) {
+                        maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
                         e.printStackTrace();
                     }
 
@@ -192,6 +195,20 @@ public class MyModel extends Observable implements IModel{
         setChanged();
         notifyObservers();
     }
+
+    public void Save(File file){
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
+            out.writeObject(this.maze);
+            out.flush();
+            out.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public ArrayList<Position> getSolutionPath() {

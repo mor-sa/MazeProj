@@ -5,13 +5,19 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -41,9 +47,21 @@ public class MyViewController implements IView, Observer {
 
     public void generateMaze()
     {
-        int rows = Integer.valueOf(rowInputTextField.getText());
-        int cols = Integer.valueOf(colInputTextField.getText());
-        myViewModel.generateMaze(rows,cols);
+        String rowInput = rowInputTextField.getText();
+        String colInput = colInputTextField.getText();
+        if (!rowInput.matches("\\d*") || !colInput.matches("\\d*") || rowInput.equals("") || colInput.equals("")){
+            showAlert("Please insert numbers between 2 and 1000");
+        }
+        else {
+            int rows = Integer.parseInt(rowInput);
+            int cols = Integer.parseInt(colInput);
+            if ((rows < 2 || cols < 2 || rows > 1000 || cols > 1000)){
+                showAlert("Please insert numbers between 2 and 1000");
+            }
+            else {
+                myViewModel.generateMaze(rows, cols);
+            }
+        }
     }
 
     public void drawMaze()
@@ -52,7 +70,7 @@ public class MyViewController implements IView, Observer {
     }
 
     public void solveMaze(){
-        myViewModel.solveMaze();
+        myViewModel.solveMaze(rowCharInd, colCharInd);
     }
 
     public void drawSolution(ArrayList<Position> path){
@@ -128,6 +146,53 @@ public class MyViewController implements IView, Observer {
             }
         }
     }
+
+    public void setResizeEvent(Scene scene) {
+        long width = 0;
+        long height = 0;
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                System.out.println("Width: " + newSceneWidth);
+                drawMaze();
+            }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                System.out.println("Height: " + newSceneHeight);
+                drawMaze();
+            }
+        });
+    }
+
+    public void saveMaze(){
+        // No Maze was generated
+        if(this.myViewModel.getMaze() == null){
+            showAlert("Please generate a maze first");
+        }
+        else{
+            FileChooser filechooser = new FileChooser();
+            filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
+            filechooser.setTitle("Saving the maze");
+            File file = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
+            if (file != null)
+                this.myViewModel.Save(file);
+            else{
+                showAlert("Something went wrong");
+            }
+        }
+    }
+
+    public void Exit(){
+        this.myViewModel.Exit();
+    }
+
+    public void Help(){
+
+    }
+
 
     @Override
     public void displayMaze(int[][] arrMaze, int rowChar, int colChar) {

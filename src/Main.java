@@ -26,18 +26,23 @@ import View.MazeDisplayer;
 import View.MyViewController;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.util.Observer;
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -55,12 +60,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
-        Parent root = fxmlLoader.load();
-        primaryStage.setTitle("Pink Panther Maze");
-        primaryStage.setScene(new Scene(root, 500, 500));
-        primaryStage.show();
 
         //**************************************
         // root
@@ -116,11 +115,58 @@ public class Main extends Application {
         model.startServers();
         MyViewModel viewModel = new MyViewModel(model);
         model.addObserver(viewModel);
+
+        primaryStage.setTitle("Pink Panther Maze");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, 500, 500);
+        // Moving
+        scene.setOnMousePressed(m -> {
+            if (m.getButton() == MouseButton.PRIMARY) {
+                scene.setCursor(Cursor.MOVE);
+                initialX = (int) (primaryStage.getX() - m.getScreenX());
+                initialY = (int) (primaryStage.getY() - m.getScreenY());
+            }
+        });
+
+        scene.setOnMouseDragged(m -> {
+            if (m.getButton() == MouseButton.PRIMARY) {
+                primaryStage.setX(m.getScreenX() + initialX);
+                primaryStage.setY(m.getScreenY() + initialY);
+            }
+        });
+
+        scene.setOnMouseReleased(m -> {
+            scene.setCursor(Cursor.DEFAULT);
+        });
+        primaryStage.setScene(scene);
+
         MyViewController viewController = fxmlLoader.getController();
+        viewController.setResizeEvent(scene);
         viewController.setViewModel(viewModel);
         viewModel.addObserver(viewController);
+
+        SetStageCloseEvent(primaryStage, model);
+        primaryStage.show();
     }
 
+    private void SetStageCloseEvent(Stage primaryStage, MyModel model) {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent windowEvent) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    // ... user chose OK
+                    // Close program
+                    model.stopServers();
+                    primaryStage.close();
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                    windowEvent.consume();
+                }
+            }
+        });
+    }
 
     public static void main(String[] args) {
         launch(args);

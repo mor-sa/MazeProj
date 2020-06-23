@@ -3,6 +3,7 @@ package Model;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observer;
 
@@ -13,6 +14,8 @@ public interface IModel {
     public int getRowChar();
     public int getColChar();
     public void assignObserver(Observer o);
-    public void solveMaze();
+    public void solveMaze(int rowStartPos, int colStartPos);
     public ArrayList<Position> getSolutionPath();
+    public void Save(File file);
+    public void stopServers();
 }

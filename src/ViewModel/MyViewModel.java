@@ -3,6 +3,8 @@ package ViewModel;
 import Model.IModel;
 import algorithms.mazeGenerators.*;
 import javafx.scene.input.KeyEvent;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -82,10 +84,19 @@ public class MyViewModel extends Observable implements Observer {
         model.updateCharacterLocation(direction);
     }
 
-    public void solveMaze()
+    public void solveMaze(int rowCharInd, int colCharInd)
     {
-        model.solveMaze();
+        model.solveMaze(rowCharInd, colCharInd);
     }
+
+    public void Save(File file){
+        this.model.Save(file);
+    }
+
+    public void Exit(){
+        this.model.stopServers();
+    }
+
 
     public void getSolution()
     {

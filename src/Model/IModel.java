@@ -4,6 +4,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observer;
 
@@ -14,8 +15,12 @@ public interface IModel {
     public int getRowChar();
     public int getColChar();
     public void assignObserver(Observer o);
-    public void solveMaze();
+    public void solveMaze(int rowCharInd, int colCharInd);
     public ArrayList<Position> getSolutionPath();
     public void exit();
     public void Save(File file);
-}
+    public void Load(File file) throws IOException, ClassNotFoundException;
+    public String getMazeGenAlg();
+    public String getMazeSolveAlg();
+    public String getNumOfThreads();
+    }

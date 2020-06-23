@@ -10,26 +10,21 @@ import algorithms.search.Solution;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class MyModel extends Observable implements IModel{
     private Maze maze;
     private ArrayList<Position> SolPath;
     private static Server serverMazeGenerator;
     private static Server serverSolveMaze;
-    //private int rowCharInd;
-    //private int colCharInd;
     private Position charPos;
+    private Properties prop;
 
     public MyModel() {
         maze = null;
-        //rowCharInd = 0;
-        //colCharInd = 0;
         charPos = new Position();
         SolPath = new ArrayList<>();
+        prop = Server.Configurations.loadConfig();
     }
 
     /**
@@ -158,12 +153,10 @@ public class MyModel extends Observable implements IModel{
     }
 
     public int getRowChar() {
-        //return rowCharInd;
         return charPos.getRowIndex();
     }
 
     public int getColChar() {
-        //return colCharInd;
         return charPos.getColumnIndex();
     }
 
@@ -176,9 +169,11 @@ public class MyModel extends Observable implements IModel{
      * This method solves the maze and saves the solution as ArrayList<Position>
      */
     @Override
-    public void solveMaze() {
+    public void solveMaze(int rowStartPos, int colStartPos) {
         //Solving maze
+        Position recovery = maze.getStartPosition();
         try {
+            maze.setStartPosition(rowStartPos, colStartPos);
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
@@ -199,6 +194,7 @@ public class MyModel extends Observable implements IModel{
                             MyModel.this.SolPath.add(curPos);
                         }
                     } catch (Exception e) {
+                        maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
                         e.printStackTrace();
                     }
 
@@ -206,6 +202,7 @@ public class MyModel extends Observable implements IModel{
             });
             client.communicateWithServer();
         } catch (UnknownHostException e) {
+            maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
             e.printStackTrace();
         }
         setChanged();
@@ -240,6 +237,24 @@ public class MyModel extends Observable implements IModel{
         }
     }
 
+    @Override
+    public void Load(File file) throws IOException, ClassNotFoundException {
+        try {
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream inputStream = new ObjectInputStream(in);
+            Maze loadedMaze = (Maze)inputStream.readObject();
+            this.charPos.setRowIndex(loadedMaze.getStartPosition().getRowIndex());
+            this.charPos.setColumnIndex(loadedMaze.getStartPosition().getColumnIndex());
+            this.maze = loadedMaze;
+            setChanged();
+            notifyObservers();
+            inputStream.close();
+        }
+        catch(IOException | ClassNotFoundException e ){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method will close the servers and exit the program.
      */
@@ -248,4 +263,15 @@ public class MyModel extends Observable implements IModel{
         System.exit(0);
     }
 
+    public String getMazeGenAlg(){
+        return prop.getProperty("MazeGenerator");
+    }
+
+    public String getMazeSolveAlg() {
+        return prop.getProperty("SearchingAlgorithm");
+    }
+
+    public String getNumOfThreads() {
+        return prop.getProperty("NumOfThreads");
+    }
 }

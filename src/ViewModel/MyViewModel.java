@@ -5,6 +5,9 @@ import View.MazeDisplayer;
 import algorithms.mazeGenerators.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Observable;
@@ -96,18 +99,34 @@ public class MyViewModel extends Observable implements Observer {
         model.updateCharacterLocation(direction);
     }
 
-    public void solveMaze()
+    public void solveMaze(int rowCharInd, int colCharInd)
     {
-        model.solveMaze();
+        model.solveMaze(rowCharInd, colCharInd);
     }
 
-    public void getSolution()
-    {
-
+    public void LoadMaze(File file){
+        try{
+            this.model.Load(file);
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     public void Exit(){
         this.model.exit();
+    }
+
+    public String getModelMazeGenAlg(){
+        return this.model.getMazeGenAlg();
+    }
+
+    public String getModelMazeSolveAlg() {
+        return this.model.getMazeSolveAlg();
+    }
+
+    public String getModelNumOfThreads() {
+        return this.model.getNumOfThreads();
     }
 
 

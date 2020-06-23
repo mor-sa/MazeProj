@@ -14,12 +14,12 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="New" onAction="#generateMaze"/>
                 <MenuItem mnemonicParsing="false" text="Save" onAction="#saveMaze"/>
-                <MenuItem mnemonicParsing="false" text="Load" />
+                <MenuItem mnemonicParsing="false" text="Load" onAction="#loadMaze"/>
             </items>
           </Menu>
           <Menu fx:id="btn_optionsMenu" mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem mnemonicParsing="false" text="Properties" />
+              <MenuItem mnemonicParsing="false" text="Properties" onAction="#showProperties" />
             </items>
           </Menu>
             <Menu fx:id="btn_aboutMenu" mnemonicParsing="false" text="Help"/>

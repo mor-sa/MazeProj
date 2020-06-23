@@ -9,14 +9,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.io.*;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,8 +38,6 @@ public class MyViewController implements IView, Observer {
     public Menu btn_helpMenu;
     public Menu btn_aboutMenu;
     public Menu btn_exitMenu;
-
-
 
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
@@ -67,28 +66,23 @@ public class MyViewController implements IView, Observer {
         mazeDisplayer.requestFocus();
     }
 
-    public void setViewModel(MyViewModel viewModel) {
-        this.myViewModel = viewModel;
-    }
+    public void setViewModel(MyViewModel viewModel) { this.myViewModel = viewModel; }
 
-    public String get_update_player_position_row() {
-        return update_player_position_row.get();
-    }
+    public String get_update_player_position_row() { return update_player_position_row.get(); }
+    public String get_update_player_position_col() { return update_player_position_col.get(); }
 
     public void set_update_player_position_row(String update_player_position_row) {
         this.update_player_position_row.set(update_player_position_row);
     }
 
-    public String get_update_player_position_col() {
-        return update_player_position_col.get();
-    }
 
     public void set_update_player_position_col(String update_player_position_col) {
         this.update_player_position_col.set(update_player_position_col);
     }
 
     public void solveMaze(){
-        myViewModel.solveMaze();
+        myViewModel.solveMaze(rowCharInd, colCharInd);
+        mazeDisplayer.requestFocus();
     }
 
 
@@ -144,9 +138,6 @@ public class MyViewController implements IView, Observer {
                     }
                     else
                     {
-//                        set_update_player_position_row(rowFromViewModel + "");
-//                        set_update_player_position_col(colFromViewModel + "");
-//                        this.mazeDisplayer.set_player_position(rowFromViewModel,colFromViewModel);
                         drawMaze();
                     }
                 }
@@ -159,6 +150,7 @@ public class MyViewController implements IView, Observer {
                 }
             }
         }
+        mazeDisplayer.requestFocus();
     }
 
     public void drawMaze()
@@ -176,9 +168,6 @@ public class MyViewController implements IView, Observer {
         Platform.exit();
     }
 
-    public void NewGame(){
-
-    }
 
     /**
      * This will be called when user clicks on "Save" menuitem in "File" menu.
@@ -203,14 +192,38 @@ public class MyViewController implements IView, Observer {
         }
     }
 
+    /**
+     * This will be called when the user clicks on "Load menuitem in "File" menu.
+     * This will open a file chooser, the user will choose a maze from disk and start the game.
+     */
     public void loadMaze(){
-       // FileInputStream in = new FileInputStream();
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(this.mazeDisplayer.getScene().getWindow());
+        if (file != null) {
+            this.myViewModel.LoadMaze(file);
 
+            mazeDisplayer.requestFocus();
+        }
+        else{
+            showAlert("Something went wrong");
+        }
     }
 
     @Override
     public void displayMaze(int[][] arrMaze, int rowChar, int colChar) {
-        //mazeDisplayer.drawMaze(maze.getArrMaze());
+    }
+
+    /**
+     * This will be called when the user clicks on "Properties" in the "Options" menu.
+     * This will show an alert that says what's
+     */
+    public void showProperties(){
+        String mazeGenAlgText = "The Maze generating algorithm is: "+ this.myViewModel.getModelMazeGenAlg();
+        String mazeSolveAlgText = "The Maze solving algorithm is: " + this.myViewModel.getModelMazeSolveAlg();
+        String propContent = mazeGenAlgText + "\n" + mazeSolveAlgText + "\n";
+        showAlert(propContent);
     }
 }

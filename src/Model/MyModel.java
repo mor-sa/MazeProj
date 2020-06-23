@@ -209,6 +209,7 @@ public class MyModel extends Observable implements IModel{
         notifyObservers();
     }
 
+
     @Override
     public ArrayList<Position> getSolutionPath() {
         return this.SolPath;

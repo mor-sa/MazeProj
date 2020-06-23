@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import View.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#mouseClicked" prefHeight="300.0" prefWidth="300.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <MenuBar fx:id="TopMenuBar" prefHeight="36.0" prefWidth="459.0" BorderPane.alignment="CENTER">
         <menus>
@@ -22,9 +21,18 @@
               <MenuItem mnemonicParsing="false" text="Properties" onAction="#showProperties" />
             </items>
           </Menu>
-            <Menu fx:id="btn_aboutMenu" mnemonicParsing="false" text="Help"/>
-            <Menu fx:id="btn_exitMenu" mnemonicParsing="false" text="About"/>
-            <Menu fx:id="btn_helpMenu" mnemonicParsing="false" text="Exit"/>
+            <Menu fx:id="btn_helpMenu" mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Help" text="Rules" />
+               </items></Menu>
+            <Menu fx:id="btn_aboutMenu" mnemonicParsing="false" text="About">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#About" text="About us" />
+               </items></Menu>
+            <Menu fx:id="btn_exitMenu" mnemonicParsing="false" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Exit" text="Exit" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>
@@ -63,7 +71,7 @@
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding></Button>
-            <Button fx:id="SolveBtn" mnemonicParsing="false" onAction="#solveMaze" prefHeight="24.0" prefWidth="125.0" text="Solve" translateX="30.0" translateY="-3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="SolveBtn" disable="true" mnemonicParsing="false" onAction="#solveMaze" prefHeight="24.0" prefWidth="125.0" text="Solve" translateX="30.0" translateY="-3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding></Button>
@@ -73,7 +81,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" height="294.0" imageFileNameGoal="./Resources/Images/PinkDiamond.png" imageFileNamePassage="./Resources/Images/LightPinkPassage2.jpg" imageFileNamePlayer="./Resources/Images/PinkPanther3.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameWall="./Resources/Images/wall.jpg" imageFileNameVictory="./Resources/Images/victory.jpg" onKeyPressed="#keyPressed" layoutX="50.0" layoutY="0.0" width="350.0" />
+             <MazeDisplayer fx:id="mazeDisplayer" height="294.0" imageFileNameGoal="./Resources/Images/diamond2.png" imageFileNamePassage="./Resources/Images/LightPinkPassage2.jpg" imageFileNamePlayer="./Resources/Images/PinkPanther3.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameWall="./Resources/Images/wall.jpg" imageFileNameVictory="./Resources/Images/victory.jpg" onKeyPressed="#keyPressed" layoutX="50.0" layoutY="0.0" width="350.0" />
          </children>
       </Pane>
    </center>

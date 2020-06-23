@@ -15,7 +15,7 @@ public interface IModel {
     public int getRowChar();
     public int getColChar();
     public void assignObserver(Observer o);
-    public void solveMaze(int rowCharInd, int colCharInd);
+    public void solveMaze(int rowStartPos, int colStartPos);
     public ArrayList<Position> getSolutionPath();
     public void exit();
     public void Save(File file);

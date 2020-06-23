@@ -31,17 +31,15 @@ public class MyViewModel extends Observable implements Observer {
         return this.model.getMaze();
     }
 
-
     public ArrayList<Position> getSolPath() {
         return model.getSolutionPath();
     }
 
     public int getRowChar() {
-//        return rowCharInd;
         return this.model.getRowChar();
     }
+
     public int getColChar() {
-//        return colCharInd;
         return this.model.getColChar();
     }
 
@@ -57,13 +55,10 @@ public class MyViewModel extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if(o == this.model)
         {
-            //this.colCharInd = this.model.getColChar();
-            //this.rowCharInd = this.model.getRowChar();
             setChanged();
             notifyObservers();
         }
     }
-
 
     public void generateMaze(int row,int col)
     {
@@ -129,6 +124,9 @@ public class MyViewModel extends Observable implements Observer {
         return this.model.getNumOfThreads();
     }
 
-
+    public void getSolution()
+    {
+        //model.getSolution();
+    }
 }
 

@@ -1,7 +1,9 @@
 package ViewModel;
 
 import Model.IModel;
+import View.MazeDisplayer;
 import algorithms.mazeGenerators.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.io.File;
@@ -101,7 +103,7 @@ public class MyViewModel extends Observable implements Observer {
 
     public void getSolution()
     {
-        //model.getSolution();
+
     }
 
     public void Exit(){

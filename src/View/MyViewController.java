@@ -133,7 +133,8 @@ public class MyViewController implements IView, Observer {
                     //Check if solved
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
-                        myViewModel.getSolution();
+                        //myViewModel.getSolution();
+                        mazeDisplayer.drawVictory();
                         showAlert("Good Job!");
                     }
                     //Check if user asked for solution

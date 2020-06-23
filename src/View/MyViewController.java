@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -46,7 +48,7 @@ public class MyViewController implements IView, Observer {
     {
         String rowInput = rowInputTextField.getText();
         String colInput = colInputTextField.getText();
-        if (!rowInput.matches("\\d*") || !colInput.matches("\\d*")){
+        if (!rowInput.matches("\\d*") || !colInput.matches("\\d*") || colInput.trim().isEmpty() || rowInput.trim().isEmpty()){
             showAlert("Please insert numbers between 2 and 1000");
         }
         else {
@@ -91,6 +93,8 @@ public class MyViewController implements IView, Observer {
     public void showAlert(String message)
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Information");
         alert.setContentText(message);;
         alert.show();
     }
@@ -177,6 +181,7 @@ public class MyViewController implements IView, Observer {
             FileChooser filechooser = new FileChooser();
             filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
             filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
+//            filechooser.setInitialFileName("*.txt");
             filechooser.setTitle("Saving the maze");
             File file = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
             if (file != null)

@@ -115,6 +115,7 @@ public class MazeDisplayer extends Canvas {
             double cellHeight = getHeight()/row;
             double cellWidth = getWidth()/col;
             GraphicsContext graphicsContext = getGraphicsContext2D();
+//            graphicsContext.setStroke();
             graphicsContext.clearRect(0,0,getWidth(),getHeight());
             //graphicsContext.setFill(Color.RED);
             double w,h;

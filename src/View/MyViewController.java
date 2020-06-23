@@ -64,6 +64,7 @@ public class MyViewController implements IView, Observer {
                 myViewModel.generateMaze(rows, cols);
             }
         }
+        mazeDisplayer.requestFocus();
     }
 
     public void setViewModel(MyViewModel viewModel) {
@@ -191,7 +192,6 @@ public class MyViewController implements IView, Observer {
             FileChooser filechooser = new FileChooser();
             filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
             filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
-//            filechooser.setInitialFileName("*.txt");
             filechooser.setTitle("Saving the maze");
             File file = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
             if (file != null)

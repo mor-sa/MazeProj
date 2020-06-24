@@ -14,10 +14,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -404,9 +401,23 @@ public class MyViewController implements IView, Observer {
     public void handleMusic(){
         if(SoundToggle.isSelected()){
             this.mediaPlayer.pause();
+
         }
         else{
             this.mediaPlayer.play();
+        }
+        if (this.maze == null){
+            rowInputTextField.requestFocus();
+        }
+        else {
+            mazeDisplayer.requestFocus();
+        }
+    }
+
+    public void inputKeyPressed(KeyEvent keyEvent){
+        if (keyEvent.getCode().equals(KeyCode.ENTER))
+        {
+            generateMaze();
         }
     }
 }

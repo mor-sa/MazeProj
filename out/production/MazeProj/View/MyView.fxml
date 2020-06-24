@@ -62,12 +62,12 @@
                     <children>
                         <Label fx:id="lbl_rowNum" prefHeight="51.0" prefWidth="76.0" text=" Rows:" />
                         <Label fx:id="lbl_colNum" text=" Columns:" GridPane.rowIndex="1" />
-                        <TextField fx:id="rowInputTextField" prefHeight="27.0" prefWidth="86.0" GridPane.columnIndex="1">
+                        <TextField fx:id="rowInputTextField" prefHeight="27.0" prefWidth="86.0" GridPane.columnIndex="1" onKeyPressed="#inputKeyPressed">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>
                         </TextField>
-                        <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" onKeyPressed="#inputKeyPressed">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>

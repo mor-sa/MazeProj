@@ -8,28 +8,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import java.io.*;
-import java.util.ArrayList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-
-import javax.print.attribute.standard.Media;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Optional;
 
 public class MyViewController implements IView, Observer {
 
@@ -49,6 +40,9 @@ public class MyViewController implements IView, Observer {
     public Menu btn_helpMenu;
     public Menu btn_aboutMenu;
     public Menu btn_exitMenu;
+
+    public MediaPlayer mediaPlayer;
+    public Media song;
 
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
@@ -74,6 +68,13 @@ public class MyViewController implements IView, Observer {
             }
             else {
                 myViewModel.generateMaze(rows, cols);
+                if (SolveBtn.isDisable()){
+                    mediaPlayer.stop();
+                    Media song=new Media(getClass().getClassLoader().getResource("Audio/The Pink Panther Theme.mp3").toExternalForm());
+                    mediaPlayer = new MediaPlayer(song);
+                    mediaPlayer.setVolume(1.0);
+                    mediaPlayer.play();
+                }
                 SolveBtn.setDisable(false);
                 SaveBtn.setDisable(false);
                 NewBtn.setDisable(false);
@@ -154,6 +155,12 @@ public class MyViewController implements IView, Observer {
                     //Check if solved
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
+                        mediaPlayer.stop();
+                        Media song=new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Sylvan.mp3").toExternalForm());
+                        mediaPlayer = new MediaPlayer(song);
+                        mediaPlayer.setVolume(1.0);
+                        mediaPlayer.play();
+                        SolveBtn.setDisable(true);
                         mazeDisplayer.drawVictory();
                         showAlert("You found the diamond!", "Congratulations!");
                     }
@@ -198,6 +205,18 @@ public class MyViewController implements IView, Observer {
         }
     }
 
+    public void handleZoom(ScrollEvent scroll) {
+        if(scroll.isControlDown()){
+            if(scroll.getDeltaY()>0){
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
+            }
+            if(scroll.getDeltaY()<0){
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
+            }
+            scroll.consume();
+            mazeDisplayer.draw();
+        }
+    }
 
     public void setResizeEvent(Scene scene) {
         long width = 0;
@@ -205,26 +224,12 @@ public class MyViewController implements IView, Observer {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//                if (myViewModel.getSolPath().size() != 0)
-//                {
-//                    MyViewController.this.drawSolution(myViewModel.getSolPath());
-//                }
-//                else{
-//                    MyViewController.this.drawMaze();
-//                }
                 mazeDisplayer.draw();
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-//                if (myViewModel.getSolPath().size() != 0)
-//                {
-//                    MyViewController.this.drawSolution(myViewModel.getSolPath());
-//                }
-//                else{
-//                    MyViewController.this.drawMaze();
-//                }
                 mazeDisplayer.draw();
             }
         });
@@ -298,8 +303,13 @@ public class MyViewController implements IView, Observer {
         showAlert(propContent,"Maze Properties");
     }
 
+
     @Override
     public void displayMaze(int[][] arrMaze, int rowChar, int colChar) {
         //mazeDisplayer.drawMaze(maze.getArrMaze());
     }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) { this.mediaPlayer = mediaPlayer; }
+
+    public void setSong(Media song) { this.song = song; }
 }

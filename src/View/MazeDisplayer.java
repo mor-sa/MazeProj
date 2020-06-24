@@ -25,6 +25,7 @@ public class MazeDisplayer extends Canvas {
     private Image goalImage;
     private Image stepImage;
     private Image victoryImage;
+
     private double zoom = 1;
 
     StringProperty imageFileNameWall = new SimpleStringProperty();
@@ -82,8 +83,8 @@ public class MazeDisplayer extends Canvas {
         {
             int row = maze.length;
             int col = maze[0].length;
-            double cellHeight = getHeight()/row;
-            double cellWidth = getWidth()/col;
+            double cellHeight = getHeight()/row * zoom;
+            double cellWidth = getWidth()/col * zoom;
             GraphicsContext graphicsContext = getGraphicsContext2D();
             graphicsContext.clearRect(0,0,getWidth(),getHeight());
             graphicsContext.setFill(Color.LIGHTPINK);
@@ -173,11 +174,14 @@ public class MazeDisplayer extends Canvas {
         catch (FileNotFoundException e) {
             throw new FileNotFoundException("Missing a Victory image file that is needed to show victory.");
         }
-        if (victoryImage == null){
-            graphicsContext.fillRect(0,0,getWidth(),getHeight());
-        }else{
-            graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());
-        }
+        graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());
+    }
+
+    public void drawEmpty(){
+        GraphicsContext graphicsContext = getGraphicsContext2D();
+        graphicsContext.clearRect(0,0,getWidth(),getHeight());
+        graphicsContext.setFill(Color.web("f6d3da"));
+        graphicsContext.fillRect(0,0,getWidth(),getHeight());
     }
 
     public void setZoom(double zoom) {

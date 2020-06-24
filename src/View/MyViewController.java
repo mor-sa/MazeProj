@@ -216,7 +216,7 @@ public class MyViewController implements IView, Observer {
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
             }
             scroll.consume();
-            mazeDisplayer.draw();
+            chooseDraw();
         }
     }
 
@@ -224,37 +224,30 @@ public class MyViewController implements IView, Observer {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                if (maze == null){
-                    mazeDisplayer.drawEmpty();
-                }
-                else if (SolveBtn.isDisable()){
-                    mazeDisplayer.drawVictory();
-                }
-                else if (myViewModel.getSolPath().size() != 0){
-                    mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
-                }
-                else{
-                    mazeDisplayer.draw();
-                }
+                chooseDraw();
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                if (maze == null){
-                    mazeDisplayer.drawEmpty();
-                }
-                else if (SolveBtn.isDisable()){
-                    mazeDisplayer.drawVictory();
-                }
-                else if (myViewModel.getSolPath().size() != 0){
-                    mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
-                }
-                else{
-                    mazeDisplayer.draw();
-                }
+                chooseDraw();
             }
         });
+    }
+
+    public void chooseDraw(){
+        if (maze == null){
+            mazeDisplayer.drawEmpty();
+        }
+        else if (SolveBtn.isDisable()){
+            mazeDisplayer.drawVictory();
+        }
+        else if (myViewModel.getSolPath().size() != 0){
+            mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
+        }
+        else{
+            mazeDisplayer.draw();
+        }
     }
 
     /**

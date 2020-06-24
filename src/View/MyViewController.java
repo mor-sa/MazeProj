@@ -18,6 +18,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -88,20 +89,26 @@ public class MyViewController implements IView, Observer {
 
     public void setViewModel(MyViewModel viewModel) { this.myViewModel = viewModel; }
 
-    public String get_update_player_position_row() { return update_player_position_row.get(); }
-    public String get_update_player_position_col() { return update_player_position_col.get(); }
-
-    public void set_update_player_position_row(String update_player_position_row) {
-        this.update_player_position_row.set(update_player_position_row);
-    }
-
-    public void set_update_player_position_col(String update_player_position_col) {
-        this.update_player_position_col.set(update_player_position_col);
-    }
+//    public String get_update_player_position_row() { return update_player_position_row.get(); }
+//    public String get_update_player_position_col() { return update_player_position_col.get(); }
+//
+//    public void set_update_player_position_row(String update_player_position_row) {
+//        this.update_player_position_row.set(update_player_position_row);
+//    }
+//
+//    public void set_update_player_position_col(String update_player_position_col) {
+//        this.update_player_position_col.set(update_player_position_col);
+//    }
 
     public void drawMaze()
     {
+        try {
         mazeDisplayer.drawMaze(maze.getArrMaze(),rowCharInd,colCharInd, maze.getGoalPosition().getRowIndex(), maze.getGoalPosition().getColumnIndex());
+        }
+        catch (FileNotFoundException e){
+            System.out.println(e.getStackTrace());
+            showAlert(e.getMessage(), "Error");
+        }
     }
 
     public void solveMaze(){
@@ -110,7 +117,13 @@ public class MyViewController implements IView, Observer {
     }
 
     public void drawSolution(ArrayList<Position> path){
-        mazeDisplayer.drawSolution(rowCharInd, colCharInd, path);
+        try {
+            mazeDisplayer.drawSolution(rowCharInd, colCharInd, path);
+        }
+        catch (FileNotFoundException e){
+            System.out.println(e.getStackTrace());
+            showAlert(e.getMessage(), "Error");
+        }
     }
 
     /**
@@ -166,7 +179,9 @@ public class MyViewController implements IView, Observer {
                             mediaPlayer.play();
                         }
                         SolveBtn.setDisable(true);
-                        mazeDisplayer.drawVictory();
+                        try{
+                        mazeDisplayer.drawVictory();}
+                        catch(FileNotFoundException e){ showAlert(e.getMessage(), "Error"); }
                         showAlert("You found the diamond!", "Congratulations!");
                     }
                     //Check if user asked for solution
@@ -220,7 +235,13 @@ public class MyViewController implements IView, Observer {
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
             }
             scroll.consume();
-            mazeDisplayer.draw();
+            try {
+                mazeDisplayer.draw();
+            }
+            catch (FileNotFoundException e){
+                System.out.println(e.getStackTrace());
+                showAlert(e.getMessage(), "Error");
+            }
         }
     }
 
@@ -230,14 +251,29 @@ public class MyViewController implements IView, Observer {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                mazeDisplayer.draw();
+                /////////////////
+                try {
+                    mazeDisplayer.draw();
+                }
+                catch (FileNotFoundException e){
+                    System.out.println(e.getStackTrace());
+                    showAlert(e.getMessage(), "Error");
+                }
             }
+
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                mazeDisplayer.draw();
-            }
+                    /////////////////
+                    try {
+                        mazeDisplayer.draw();
+                    }
+                    catch (FileNotFoundException e){
+                        System.out.println(e.getStackTrace());
+                        showAlert(e.getMessage(), "Error");
+                    }
+                }
         });
 
     }
@@ -258,7 +294,7 @@ public class MyViewController implements IView, Observer {
             }
             catch(Exception e) {
                 e.printStackTrace();
-                showAlert("Something went wrong", "Error");
+                showAlert("Something went wrong on saving maze process", "Error");
                 return;
             }
             showAlert("File saved: " + savedFile.toString(), "Information");
@@ -320,6 +356,10 @@ public class MyViewController implements IView, Observer {
 
     public void setSong(Media song) { this.song = song; }
 
+    /**
+     * This will be called when the user clicks on the sound toggle button.
+     * If the sound toggle is selected will stop the music, and if it's not selected it will play the music.
+     */
     public void handleMusic(){
         if(SoundToggle.isSelected()){
             this.mediaPlayer.stop();

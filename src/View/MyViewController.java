@@ -231,10 +231,10 @@ public class MyViewController implements IView, Observer {
 
     public void Zoom(ScrollEvent scroll) {
         if(scroll.isControlDown()){
-            if(scroll.getDeltaY()>0){
+            if(scroll.getDeltaY()>0 || scroll.getDeltaX()>0){
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
             }
-            if(scroll.getDeltaY()<0){
+            if(scroll.getDeltaY()<0 || scroll.getDeltaX()<0){
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
             }
             scroll.consume();
@@ -275,18 +275,25 @@ public class MyViewController implements IView, Observer {
         });
     }
 
-    public void chooseDraw(){
-        if (maze == null){
-            mazeDisplayer.drawEmpty();
+    public void chooseDraw() throws FileNotFoundException{
+        try{
+            if (maze == null){
+                mazeDisplayer.drawEmpty();
+            }
+            else if (SolveBtn.isDisable()){
+                    mazeDisplayer.drawVictory();
+
+            }
+            else if (myViewModel.getSolPath().size() != 0){
+                mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
+            }
+            else{
+                mazeDisplayer.draw();
+            }
         }
-        else if (SolveBtn.isDisable()){
-            mazeDisplayer.drawVictory();
-        }
-        else if (myViewModel.getSolPath().size() != 0){
-            mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
-        }
-        else{
-            mazeDisplayer.draw();
+        catch(FileNotFoundException e){
+                System.out.println(e.getStackTrace());
+                showAlert(e.getMessage(),"Error");
         }
     }
 

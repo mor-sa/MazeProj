@@ -139,12 +139,12 @@ public class MazeDisplayer extends Canvas {
         try {
             stepImage = new Image(new FileInputStream(getImageFileNameStep()));
         } catch (FileNotFoundException e) {
-            throw new FileNotFoundException("Missing a Step image file that is needed to show a soltion.");
+            throw new FileNotFoundException("Missing a Step image file that is needed to show a solution.");
         }
         int row = maze.length;
         int col = maze[0].length;
-        double cellHeight = getHeight()/row;
-        double cellWidth = getWidth()/col;
+        double cellHeight = (getHeight()/row)*zoom;
+        double cellWidth = (getWidth()/col)*zoom;
         GraphicsContext graphicsContext = getGraphicsContext2D();
         graphicsContext.clearRect(0,0,getWidth(),getHeight());
         set_player_position(rowCharInd, colCharInd);
@@ -156,10 +156,10 @@ public class MazeDisplayer extends Canvas {
         }
         for (int i = 1; i < path.size() - 1; i++){
             if (path.get(i).getColumnIndex() == colCharInd && path.get(i).getRowIndex() == rowCharInd){
-                graphicsContext.drawImage(playerImage, path.get(i).getColumnIndex() * cellWidth, path.get(i).getRowIndex() * cellHeight, getWidth()/maze[0].length, getHeight()/maze.length);
+                graphicsContext.drawImage(playerImage, path.get(i).getColumnIndex() * cellWidth, path.get(i).getRowIndex() * cellHeight, (getWidth()/maze[0].length)*zoom, (getHeight()/maze.length)*zoom);
             }
             else{
-                graphicsContext.drawImage(stepImage, path.get(i).getColumnIndex() * cellWidth, path.get(i).getRowIndex() * cellHeight, getWidth()/maze[0].length, getHeight()/maze.length);
+                graphicsContext.drawImage(stepImage, path.get(i).getColumnIndex() * cellWidth, path.get(i).getRowIndex() * cellHeight, (getWidth()/maze[0].length)*zoom, (getHeight()/maze.length)*zoom);
             }
         }
     }

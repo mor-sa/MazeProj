@@ -235,27 +235,21 @@ public class MyViewController implements IView, Observer {
      * This will save the maze on the users computer.
      **/
     public void saveMaze(){
-        // No Maze was generated
-        if(this.myViewModel.getMaze() == null){
-            showAlert("Error","Please generate a maze first");
-        }
-        else{
-            FileChooser filechooser = new FileChooser();
-            filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
-            filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
-            filechooser.setTitle("Saving the maze");
-            File savedFile = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
-            if (savedFile != null) {
-                try {
-                    this.myViewModel.Save(savedFile);
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                    showAlert("Something went wrong", "Error");
-                    return;
-                }
-                showAlert("File saved: " + savedFile.toString(), "Information");
+        FileChooser filechooser = new FileChooser();
+        filechooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
+        filechooser.setTitle("Saving the maze");
+        File savedFile = filechooser.showSaveDialog(this.mazeDisplayer.getScene().getWindow());
+        if (savedFile != null) {
+            try {
+                this.myViewModel.Save(savedFile);
             }
+            catch(Exception e) {
+                e.printStackTrace();
+                showAlert("Something went wrong", "Error");
+                return;
+            }
+            showAlert("File saved: " + savedFile.toString(), "Information");
         }
     }
 

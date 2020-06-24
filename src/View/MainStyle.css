@@ -2,11 +2,35 @@
     -fx-background-color: bisque;
 }
 
+.menu-bar{ -fx-background-color: linear-gradient(#F0E8EB, #D4B6C1);}
+.menu-item .label{-fx-text-fill: #946B7B;}
+.menu-item:hover{-fx-background-color: #DFAFC1 ;}
+.menu-button:hover{-fx-background-color: #DFAFC1 ;}
+.menu-item:focused{-fx-background-color: #DFAFC1 ;}
+.menu-button:focused{-fx-background-color: #DFAFC1 ;}
+.menu-button:showing{-fx-background-color: #DFAFC1 ;}
+.menu-button .label{
+    -fx-text-fill: #B40C4C;
+    -fx-font-family: "Trebuchet MS";
+}
+
+Label {
+    -fx-font-family: "Trebuchet MS";
+}
+
+Line{
+    -fx-stroke: #662B42;
+}
+
 Button {
     -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
+    -fx-font-family: "Trebuchet MS";
+    /*-fx-font-family: "Gill Sans";*/
+    /*-fx-font-family: "Arial Narrow";*/
+
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    /*-fx-background-color: linear-gradient(#61a2b1, #2A5058);*/
+    -fx-background-color: linear-gradient(#E16594, #B40C4C);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 

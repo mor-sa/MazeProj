@@ -205,7 +205,7 @@ public class MyViewController implements IView, Observer {
         }
     }
 
-    public void handleZoom(ScrollEvent scroll) {
+    public void Zoom(ScrollEvent scroll) {
         if(scroll.isControlDown()){
             if(scroll.getDeltaY()>0){
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);

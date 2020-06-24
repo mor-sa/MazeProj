@@ -133,7 +133,7 @@ public class Main extends Application {
         primaryStage.setTitle("Pink Panther Maze");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 500, 500);
+        Scene scene = new Scene(root, 800, 600);
 
         // Moving
         scene.setOnMousePressed(m -> {

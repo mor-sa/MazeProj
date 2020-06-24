@@ -25,7 +25,7 @@ public class MazeDisplayer extends Canvas {
     private Image goalImage;
     private Image stepImage;
     private Image victoryImage;
-    private double zoom=1;
+    private double zoom = 1;
 
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();

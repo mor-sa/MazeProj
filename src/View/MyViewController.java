@@ -75,8 +75,6 @@ public class MyViewController implements IView, Observer {
             else {
                 myViewModel.generateMaze(rows, cols);
                 SolveBtn.setDisable(false);
-
-                /// DOESNT WORK FOR NOW!!!!!!! is enabled from the start.
                 SaveBtn.setDisable(false);
                 NewBtn.setDisable(false);
             }
@@ -156,7 +154,6 @@ public class MyViewController implements IView, Observer {
                     //Check if solved
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
-                        //myViewModel.getSolution();
                         mazeDisplayer.drawVictory();
                         showAlert("You found the diamond!", "Congratulations!");
                     }
@@ -194,7 +191,6 @@ public class MyViewController implements IView, Observer {
         File file = fileChooser.showOpenDialog(this.mazeDisplayer.getScene().getWindow());
         if (file != null) {
             this.myViewModel.LoadMaze(file);
-
             mazeDisplayer.requestFocus();
         }
         else{
@@ -209,25 +205,27 @@ public class MyViewController implements IView, Observer {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                if (myViewModel.getSolPath().size() != 0)
-                {
-                    MyViewController.this.drawSolution(myViewModel.getSolPath());
-                }
-                else{
-                    MyViewController.this.drawMaze();
-                }
+//                if (myViewModel.getSolPath().size() != 0)
+//                {
+//                    MyViewController.this.drawSolution(myViewModel.getSolPath());
+//                }
+//                else{
+//                    MyViewController.this.drawMaze();
+//                }
+                mazeDisplayer.draw();
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                if (myViewModel.getSolPath().size() != 0)
-                {
-                    MyViewController.this.drawSolution(myViewModel.getSolPath());
-                }
-                else{
-                    MyViewController.this.drawMaze();
-                }
+//                if (myViewModel.getSolPath().size() != 0)
+//                {
+//                    MyViewController.this.drawSolution(myViewModel.getSolPath());
+//                }
+//                else{
+//                    MyViewController.this.drawMaze();
+//                }
+                mazeDisplayer.draw();
             }
         });
     }

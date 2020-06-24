@@ -41,7 +41,7 @@
     <center>
         <Pane fx:id="mazePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" imageFileNameGoal="./Resources/Images/diamond2.png" imageFileNamePassage="./Resources/Images/lightPink2.jpg" imageFileNamePlayer="./Resources/Images/PinkPanther3.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameVictory="./Resources/Images/victory.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" height="${mazePane.height}" width="${mazePane.width}" />
+                <MazeDisplayer fx:id="mazeDisplayer" imageFileNameGoal="./Resources/Images/diamond2.png" imageFileNamePassage="./Resources/Images/lightPink2.jpg" imageFileNamePlayer="./Resources/Images/PinkPanther3.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameVictory="./Resources/Images/victory2.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" height="${mazePane.height}" width="${mazePane.width}" />
             </children>
         </Pane>
     </center>

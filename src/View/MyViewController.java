@@ -1,5 +1,6 @@
 package View;
 
+import Model.MyModel;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
@@ -156,11 +157,12 @@ public class MyViewController implements IView, Observer {
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
                         mediaPlayer.stop();
-                        Media song=new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Sylvan.mp3").toExternalForm());
+                        Media song=new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Academy.mp3").toExternalForm());
                         mediaPlayer = new MediaPlayer(song);
                         mediaPlayer.setVolume(1.0);
                         mediaPlayer.play();
                         SolveBtn.setDisable(true);
+                        SaveBtn.setDisable(true);
                         mazeDisplayer.drawVictory();
                         showAlert("You found the diamond!", "Congratulations!");
                     }
@@ -219,18 +221,38 @@ public class MyViewController implements IView, Observer {
     }
 
     public void setResizeEvent(Scene scene) {
-        long width = 0;
-        long height = 0;
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                mazeDisplayer.draw();
+                if (maze == null){
+                    mazeDisplayer.drawEmpty();
+                }
+                else if (SolveBtn.isDisable()){
+                    mazeDisplayer.drawVictory();
+                }
+                else if (myViewModel.getSolPath().size() != 0){
+                    mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
+                }
+                else{
+                    mazeDisplayer.draw();
+                }
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                mazeDisplayer.draw();
+                if (maze == null){
+                    mazeDisplayer.drawEmpty();
+                }
+                else if (SolveBtn.isDisable()){
+                    mazeDisplayer.drawVictory();
+                }
+                else if (myViewModel.getSolPath().size() != 0){
+                    mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
+                }
+                else{
+                    mazeDisplayer.draw();
+                }
             }
         });
     }

@@ -156,11 +156,14 @@ public class MazeDisplayer extends Canvas {
         catch (FileNotFoundException e) {
             System.out.println("Missing victory image file");
         }
-        if (victoryImage == null){
-            graphicsContext.fillRect(0,0,getWidth(),getHeight());
-        }else{
-            graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());
-        }
+        graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());
+    }
+
+    public void drawEmpty(){
+        GraphicsContext graphicsContext = getGraphicsContext2D();
+        graphicsContext.clearRect(0,0,getWidth(),getHeight());
+        graphicsContext.setFill(Color.web("f6d3da"));
+        graphicsContext.fillRect(0,0,getWidth(),getHeight());
     }
 
     public void setZoom(double zoom) {

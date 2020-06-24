@@ -1,8 +1,9 @@
 .root{
-    /*-fx-background-color: #FFF0F6;*/
+    -fx-background-color: #f6d3da;
     -fx-background-image: url("https://imgur.com/2wDtTZP.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    /*-fx-background-size: cover;*/
+    -fx-background-position: bottom left;
     /*-fx-background-position: center center;*/
 
 }

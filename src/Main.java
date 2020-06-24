@@ -20,9 +20,7 @@
 //    }
 //}
 
-import Model.IModel;
 import Model.MyModel;
-import View.MazeDisplayer;
 import View.MyViewController;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
@@ -34,16 +32,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import javax.print.attribute.standard.Media;
-import java.util.Observer;
 import java.util.Optional;
 
 
@@ -138,7 +133,7 @@ public class Main extends Application {
         primaryStage.setTitle("Pink Panther Maze");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 700, 500);
+        Scene scene = new Scene(root, 800, 600);
 
         // Moving
         scene.setOnMousePressed(m -> {
@@ -162,6 +157,14 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         MyViewController viewController = fxmlLoader.getController();
+
+        javafx.scene.media.Media song=new Media(getClass().getClassLoader().getResource("Audio/The Pink Panther Theme.mp3").toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(song);
+        mediaPlayer.setVolume(1.0);
+        viewController.setMediaPlayer(mediaPlayer);
+        viewController.setSong(song);
+        viewController.mediaPlayer.play();
+
         viewController.setResizeEvent(scene);
         viewController.setViewModel(viewModel);
         viewModel.addObserver(viewController);
@@ -192,7 +195,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-
-
-
-

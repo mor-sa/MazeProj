@@ -25,6 +25,7 @@ public class MazeDisplayer extends Canvas {
     private Image goalImage;
     private Image stepImage;
     private Image victoryImage;
+    private double zoom = 1;
 
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
@@ -84,6 +85,8 @@ public class MazeDisplayer extends Canvas {
             double w,h;
             //Draw Maze
             try {
+                goalImage = new Image(new FileInputStream(getImageFileNameGoal()));
+                playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
                 wallImage = new Image(new FileInputStream(getImageFileNameWall()));
                 passageImage = new Image(new FileInputStream(getImageFileNamePassage()));
             } catch (FileNotFoundException e) {
@@ -99,42 +102,23 @@ public class MazeDisplayer extends Canvas {
                     {
                         h = i * cellHeight;
                         w = j * cellWidth;
-                        if (wallImage == null){
-                            graphicsContext.fillRect(w,h,cellWidth,cellHeight);
-                        }else{
-                            graphicsContext.drawImage(wallImage,w,h,cellWidth,cellHeight);
-                        }
+                        graphicsContext.drawImage(wallImage,w,h,cellWidth,cellHeight);
                     }
                     else{
                         h = i * cellHeight;
                         w = j * cellWidth;
-                        if (passageImage == null){
-                            graphicsContext.fillRect(w,h,cellWidth,cellHeight);
-                        }
-                        else{
-                            graphicsContext.drawImage(passageImage, w, h, cellWidth, cellHeight);
-                        }
+                        graphicsContext.drawImage(passageImage, w, h, cellWidth, cellHeight);
                     }
                 }
             }
             //Draw Player
             double h_player = getRow_player() * cellHeight;
             double w_player = getCol_player() * cellWidth;
-            try {
-                playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
-            } catch (FileNotFoundException e) {
-                System.out.println("Missing player image file");
-            }
             graphicsContext.drawImage(playerImage,w_player,h_player,cellWidth,cellHeight);
             //Draw Target
-            double h_target = getRow_goal() * cellHeight;
-            double w_target = getCol_goal() * cellWidth;
-            try {
-                goalImage = new Image(new FileInputStream(getImageFileNameGoal()));
-            } catch (FileNotFoundException e) {
-                System.out.println("Missing goal image file");
-            }
-            graphicsContext.drawImage(goalImage,w_target,h_target,cellWidth,cellHeight);
+            double h_goal = getRow_goal() * cellHeight;
+            double w_goal = getCol_goal() * cellWidth;
+            graphicsContext.drawImage(goalImage,w_goal,h_goal,cellWidth,cellHeight);
         }
     }
 
@@ -177,5 +161,13 @@ public class MazeDisplayer extends Canvas {
         }else{
             graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());
         }
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
+
+    public double getZoom() {
+        return zoom;
     }
 }

@@ -1,15 +1,12 @@
 package ViewModel;
 
 import Model.IModel;
-import View.MazeDisplayer;
-import algorithms.mazeGenerators.*;
-import javafx.scene.canvas.GraphicsContext;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import javafx.scene.input.KeyEvent;
-
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -122,11 +119,6 @@ public class MyViewModel extends Observable implements Observer {
 
     public String getModelNumOfThreads() {
         return this.model.getNumOfThreads();
-    }
-
-    public void getSolution()
-    {
-        //model.getSolution();
     }
 }
 

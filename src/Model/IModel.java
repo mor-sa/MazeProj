@@ -16,6 +16,7 @@ public interface IModel {
     void assignObserver(Observer o);
     void solveMaze(int rowStartPos, int colStartPos);
     ArrayList<Position> getSolutionPath();
+    void clearSolPath();
     void exit();
     void Save(File file);
     void Load(File file) throws IOException, ClassNotFoundException;

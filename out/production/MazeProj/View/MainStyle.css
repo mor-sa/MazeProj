@@ -37,6 +37,29 @@ Line{
     -fx-stroke: C1B0B7;
 }
 
+.toggle-button {
+    -fx-background-image: url("https://imgur.com/tGvyFMg.jpg");
+    -fx-background-size: 40 40;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-radius: 0,0,0,0;
+    -fx-background-insets: 0,0,0,0;
+
+}
+
+.toggle-button:selected{
+    -fx-background-image: url("https://imgur.com/E7xizXs.jpg");
+    -fx-background-size: 40 40;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-radius: 0,0,0,0;
+    -fx-background-insets: 0,0,0,0;
+}
+
 Button {
     -fx-background-radius: 1em;
     -fx-text-fill: white;

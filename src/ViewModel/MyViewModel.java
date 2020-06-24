@@ -32,6 +32,8 @@ public class MyViewModel extends Observable implements Observer {
         return model.getSolutionPath();
     }
 
+    public void clearSolPath(){ this.model.clearSolPath(); }
+
     public int getRowChar() {
         return this.model.getRowChar();
     }

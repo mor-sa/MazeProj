@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-
 <BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" onZoom="#Zoom" prefHeight="800.0" prefWidth="600.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <MenuBar fx:id="TopMenuBar" prefHeight="30.0" prefWidth="459.0" BorderPane.alignment="CENTER">
@@ -41,7 +40,7 @@
     <center>
         <Pane fx:id="mazePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" imageFileNameGoal="./Resources/Images/diamond2.png" imageFileNamePassage="./Resources/Images/lightPink2.jpg" imageFileNamePlayer="./Resources/Images/pantherface2.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameVictory="./Resources/Images/victory2.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" height="${mazePane.height}" width="${mazePane.width}" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="${mazePane.height}" imageFileNameGoal="./Resources/Images/diamond2.png" imageFileNamePassage="./Resources/Images/lightPink2.jpg" imageFileNamePlayer="./Resources/Images/pantherface2.png" imageFileNameStep="./Resources/Images/step3.png" imageFileNameVictory="./Resources/Images/victory2.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" width="${mazePane.width}" />
             </children>
         </Pane>
     </center>
@@ -49,32 +48,32 @@
         <Pane prefHeight="100.0" prefWidth="230.0" BorderPane.alignment="CENTER">
             <children>
                 <Line endX="100.0" endY="-2.0" layoutX="130.0" layoutY="1.0" startX="100.0" startY="1000.0" />
-                <GridPane layoutX="48.0" layoutY="45.0" maxHeight="100.0" prefHeight="100.0" prefWidth="136.0">
+                <GridPane layoutX="47.0" layoutY="76.0" maxHeight="100.0" prefHeight="100.0" prefWidth="136.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="80.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="79.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
                         <Label fx:id="lbl_rowNum" prefHeight="51.0" prefWidth="76.0" text=" Rows:" />
-                        <Label fx:id="lbl_colNum" text=" Columns:" GridPane.rowIndex="2" />
+                        <Label fx:id="lbl_colNum" text=" Columns:" GridPane.rowIndex="1" />
                         <TextField fx:id="rowInputTextField" prefHeight="27.0" prefWidth="86.0" GridPane.columnIndex="1">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>
                         </TextField>
-                        <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>
                         </TextField>
                     </children>
                 </GridPane>
-                <GridPane layoutX="38.0" layoutY="184.0" prefHeight="90.0" prefWidth="155.0">
+                <GridPane layoutX="38.0" layoutY="176.0" prefHeight="90.0" prefWidth="155.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -89,13 +88,14 @@
                                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="SolveBtn" disable="true" mnemonicParsing="false" onAction="#solveMaze" prefHeight="24.0" prefWidth="150.0" text="Solve" GridPane.rowIndex="2">
+                        <Button fx:id="SolveBtn" disable="true" mnemonicParsing="false" onAction="#solveMaze" prefHeight="24.0" prefWidth="150.0" text="Solve" GridPane.rowIndex="1">
                             <padding>
                                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                             </padding>
                         </Button>
                     </children>
                 </GridPane>
+            <ToggleButton fx:id="SoundToggle" layoutX="87.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="40.0"/>
             </children>
         </Pane>
     </left>

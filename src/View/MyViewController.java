@@ -40,6 +40,7 @@ public class MyViewController implements IView, Observer {
     public Menu btn_helpMenu;
     public Menu btn_aboutMenu;
     public Menu btn_exitMenu;
+    public ToggleButton SoundToggle;
 
     public MediaPlayer mediaPlayer;
     public Media song;
@@ -68,12 +69,14 @@ public class MyViewController implements IView, Observer {
             }
             else {
                 myViewModel.generateMaze(rows, cols);
-                if (SolveBtn.isDisable()){
-                    mediaPlayer.stop();
-                    Media song=new Media(getClass().getClassLoader().getResource("Audio/The Pink Panther Theme.mp3").toExternalForm());
-                    mediaPlayer = new MediaPlayer(song);
-                    mediaPlayer.setVolume(1.0);
-                    mediaPlayer.play();
+                if(!SoundToggle.isSelected()) {
+                    if (SolveBtn.isDisable()) {
+                        mediaPlayer.stop();
+                        Media song = new Media(getClass().getClassLoader().getResource("Audio/The Pink Panther Theme.mp3").toExternalForm());
+                        mediaPlayer = new MediaPlayer(song);
+                        mediaPlayer.setVolume(1.0);
+                        mediaPlayer.play();
+                    }
                 }
                 SolveBtn.setDisable(false);
                 SaveBtn.setDisable(false);
@@ -155,11 +158,13 @@ public class MyViewController implements IView, Observer {
                     //Check if solved
                     if (rowCharInd == maze.getGoalPosition().getRowIndex() && colCharInd == maze.getGoalPosition().getColumnIndex())//Solve Maze
                     {
-                        mediaPlayer.stop();
-                        Media song=new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Sylvan.mp3").toExternalForm());
-                        mediaPlayer = new MediaPlayer(song);
-                        mediaPlayer.setVolume(1.0);
-                        mediaPlayer.play();
+                        if (!SoundToggle.isSelected()) {
+                            mediaPlayer.stop();
+                            Media song = new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Sylvan.mp3").toExternalForm());
+                            mediaPlayer = new MediaPlayer(song);
+                            mediaPlayer.setVolume(1.0);
+                            mediaPlayer.play();
+                        }
                         SolveBtn.setDisable(true);
                         mazeDisplayer.drawVictory();
                         showAlert("You found the diamond!", "Congratulations!");
@@ -191,6 +196,7 @@ public class MyViewController implements IView, Observer {
      * This will open a file chooser, the user will choose a maze from disk and start the game.
      */
     public void loadMaze(){
+        this.myViewModel.clearSolPath();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter[] { new FileChooser.ExtensionFilter("*.maze", new String[] { "*.maze" }) });
@@ -313,4 +319,13 @@ public class MyViewController implements IView, Observer {
     public void setMediaPlayer(MediaPlayer mediaPlayer) { this.mediaPlayer = mediaPlayer; }
 
     public void setSong(Media song) { this.song = song; }
+
+    public void handleMusic(){
+        if(SoundToggle.isSelected()){
+            this.mediaPlayer.stop();
+        }
+        else{
+            this.mediaPlayer.play();
+        }
+    }
 }

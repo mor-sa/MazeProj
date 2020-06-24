@@ -74,8 +74,6 @@ public class MyModel extends Observable implements IModel{
                 }
             });
             client.communicateWithServer();
-            //this.colCharInd = this.maze.getStartPosition().getColumnIndex();
-            //this.rowCharInd = this.maze.getStartPosition().getRowIndex();
             charPos.setRowIndex(this.maze.getStartPosition().getRowIndex());
             charPos.setColumnIndex(this.maze.getStartPosition().getColumnIndex());
 
@@ -274,4 +272,6 @@ public class MyModel extends Observable implements IModel{
     public String getNumOfThreads() {
         return prop.getProperty("NumOfThreads");
     }
+
+    public void clearSolPath(){ this.SolPath.clear(); }
 }

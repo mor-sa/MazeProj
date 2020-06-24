@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../ATP-Project-PartB/out/production/artifacts/ATP_Project_PartB_jar/ATP-Project-PartB.jar!/" />
@@ -17,6 +17,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="ATPProjectJar" level="project" />
+    <orderEntry type="library" exported="" name="ATPProjectJar" level="project" />
   </component>
 </module>

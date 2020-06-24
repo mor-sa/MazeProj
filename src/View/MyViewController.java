@@ -10,9 +10,12 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.media.Media;
@@ -46,6 +49,13 @@ public class MyViewController implements IView, Observer {
 
     public MediaPlayer mediaPlayer;
     public Media song;
+
+
+    //*******************************************************************
+//    public double DeltaX;
+//    public double DeltaY;
+    //*******************************************************************
+
 
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
@@ -150,6 +160,16 @@ public class MyViewController implements IView, Observer {
         mazeDisplayer.requestFocus();
     }
 
+//    public void mouseClickedMazeDisplayer(MouseEvent mouseEvent){
+//        DeltaX = mazeDisplayer.getLayoutX() + mouseEvent.getSceneX();
+//        DeltaY = mazeDisplayer.getLayoutY() + mouseEvent.getSceneY();
+//    }
+//
+//    public void Drag(MouseEvent drag){
+//        mazeDisplayer.setLayoutX(drag.getSceneX() - DeltaX);
+//        mazeDisplayer.setLayoutY(drag.getSceneY() - DeltaY);
+//    }
+
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof MyViewModel)
@@ -174,7 +194,7 @@ public class MyViewController implements IView, Observer {
                     {
                         if (!SoundToggle.isSelected()) {
                             mediaPlayer.stop();
-                            Media song = new Media(getClass().getClassLoader().getResource("Audio/WinCampaign-Academy.mp3").toExternalForm());
+                            Media song = new Media(getClass().getClassLoader().getResource("Audio/TADASound.mp3").toExternalForm());
                             mediaPlayer = new MediaPlayer(song);
                             mediaPlayer.setVolume(1.0);
                             mediaPlayer.play();
@@ -230,7 +250,7 @@ public class MyViewController implements IView, Observer {
     }
 
     public void Zoom(ScrollEvent scroll) {
-        if(scroll.isControlDown()){
+        if(scroll.isControlDown() || scroll.isShiftDown()){
             if(scroll.getDeltaY()>0 || scroll.getDeltaX()>0){
                 mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
             }
@@ -247,6 +267,8 @@ public class MyViewController implements IView, Observer {
             }
         }
     }
+
+
 
     public void setResizeEvent(Scene scene) {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
@@ -381,7 +403,7 @@ public class MyViewController implements IView, Observer {
      */
     public void handleMusic(){
         if(SoundToggle.isSelected()){
-            this.mediaPlayer.stop();
+            this.mediaPlayer.pause();
         }
         else{
             this.mediaPlayer.play();

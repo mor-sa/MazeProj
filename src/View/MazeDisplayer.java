@@ -28,6 +28,14 @@ public class MazeDisplayer extends Canvas {
 
     private double zoom = 1;
 
+    //////// CHANGES //////// *****************************************************
+
+    private double startDragX;
+    private double startDragY;
+
+    //////// CHANGES //////// *****************************************************
+
+
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNamePassage = new SimpleStringProperty();

@@ -3,9 +3,13 @@ package View;
 import algorithms.mazeGenerators.Position;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,14 +30,9 @@ public class MazeDisplayer extends Canvas {
     private Image stepImage;
     private Image victoryImage;
 
+
     private double zoom = 1;
 
-    //////// CHANGES //////// *****************************************************
-
-    private double startDragX;
-    private double startDragY;
-
-    //////// CHANGES //////// *****************************************************
 
 
     StringProperty imageFileNameWall = new SimpleStringProperty();
@@ -43,6 +42,8 @@ public class MazeDisplayer extends Canvas {
     StringProperty imageFileNameStep = new SimpleStringProperty();
     StringProperty imageFileNameVictory = new SimpleStringProperty();
 
+
+
     public String getImageFileNameWall() { return imageFileNameWall.get(); }
     public String getImageFileNamePassage(){ return imageFileNamePassage.get(); }
     public String getImageFileNamePlayer() { return imageFileNamePlayer.get(); }
@@ -50,12 +51,15 @@ public class MazeDisplayer extends Canvas {
     public String getImageFileNameStep() { return imageFileNameStep.get(); }
     public String getImageFileNameVictory(){ return imageFileNameVictory.get(); }
 
+
+
     public void setImageFileNameWall(String imageFileNameWall) { this.imageFileNameWall.set(imageFileNameWall); }
     public void setImageFileNamePassage(String imageFileNamePassage){ this.imageFileNamePassage.set(imageFileNamePassage);}
     public void setImageFileNamePlayer(String imageFileNamePlayer) {this.imageFileNamePlayer.set(imageFileNamePlayer); }
     public void setImageFileNameGoal(String imageFileNameGoal) { this.imageFileNameGoal.set(imageFileNameGoal); }
     public void setImageFileNameStep(String imageFileNameStep) { this.imageFileNameStep.set(imageFileNameStep); }
     public void setImageFileNameVictory(String imageFileNameVictory){ this.imageFileNameVictory.set(imageFileNameVictory); }
+
 
     public int getRow_player() { return row_player; }
     public int getCol_player() { return col_player; }

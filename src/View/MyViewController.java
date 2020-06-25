@@ -5,21 +5,25 @@ import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -37,6 +41,7 @@ public class MyViewController implements IView, Observer {
 
     private MyViewModel myViewModel;
     public MazeDisplayer mazeDisplayer;
+    public Pane mazePane;
     public MenuBar TopMenuBar;
     public Menu btn_MenuFile;
     public Menu btn_optionsMenu;
@@ -47,12 +52,18 @@ public class MyViewController implements IView, Observer {
 
     public MediaPlayer mediaPlayer;
     public Media song;
+    private MediaPlayer mediaPlayerVideo;
+    private MediaView mediaView;
+    private Media victoryVideo;
 
+    StringProperty imageFileNameSoundOn = new SimpleStringProperty();
+    StringProperty imageFileNameSoundOff = new SimpleStringProperty();
 
-    //*******************************************************************
-//    public double DeltaX;
-//    public double DeltaY;
-    //*******************************************************************
+    public String getImageFileNameSoundOn(){ return imageFileNameSoundOn.get(); }
+    public String getImageFileNameSoundOff(){ return imageFileNameSoundOff.get(); }
+
+    public void setImageFileNameSoundOn(String imageFileNameSoundOn){ this.imageFileNameSoundOn.set(imageFileNameSoundOn); }
+    public void setImageFileNameSoundOff(String imageFileNameSoundOff){ this.imageFileNameSoundOff.set(imageFileNameSoundOff); }
 
 
     StringProperty update_player_position_row = new SimpleStringProperty();
@@ -98,16 +109,6 @@ public class MyViewController implements IView, Observer {
 
     public void setViewModel(MyViewModel viewModel) { this.myViewModel = viewModel; }
 
-//    public String get_update_player_position_row() { return update_player_position_row.get(); }
-//    public String get_update_player_position_col() { return update_player_position_col.get(); }
-//
-//    public void set_update_player_position_row(String update_player_position_row) {
-//        this.update_player_position_row.set(update_player_position_row);
-//    }
-//
-//    public void set_update_player_position_col(String update_player_position_col) {
-//        this.update_player_position_col.set(update_player_position_col);
-//    }
 
     public void drawMaze()
     {
@@ -158,20 +159,15 @@ public class MyViewController implements IView, Observer {
         mazeDisplayer.requestFocus();
     }
 
-//    public void mouseClickedMazeDisplayer(MouseEvent mouseEvent){
-//        DeltaX = mazeDisplayer.getLayoutX() + mouseEvent.getSceneX();
-//        DeltaY = mazeDisplayer.getLayoutY() + mouseEvent.getSceneY();
-//    }
-//
-//    public void Drag(MouseEvent drag){
-//        mazeDisplayer.setLayoutX(drag.getSceneX() - DeltaX);
-//        mazeDisplayer.setLayoutY(drag.getSceneY() - DeltaY);
-//    }
 
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof MyViewModel)
         {
+            if (mediaPlayerVideo != null){
+
+                mazePane.getChildren().remove(mediaView);
+            }
             if(maze == null)//generateMaze
             {
                 this.maze = myViewModel.getMaze();
@@ -200,11 +196,11 @@ public class MyViewController implements IView, Observer {
                         SolveBtn.setDisable(true);
                         SaveBtn.setDisable(true);
 
-                        try{
-                        mazeDisplayer.drawVictory();}
-                        catch(FileNotFoundException e){ showAlert(e.getMessage(), "Error"); }
+                        VictoryVideo();
                         showAlert("You found the diamond!", "Congratulations!");
                     }
+
+
                     //Check if user asked for solution
                     else if (myViewModel.getSolPath().size() != 0)
                     {
@@ -227,6 +223,20 @@ public class MyViewController implements IView, Observer {
         mazeDisplayer.requestFocus();
     }
 
+    public void VictoryVideo(){
+        victoryVideo = new Media(getClass().getClassLoader().getResource("Videos/newVictoryVideo.mp4").toExternalForm());
+        if (victoryVideo != null) {
+            mediaPlayerVideo = new MediaPlayer(victoryVideo);
+            mediaView = new MediaView();
+            mediaView.setMediaPlayer(mediaPlayerVideo);
+            mediaView.fitWidthProperty().bind(mazePane.widthProperty());
+            mediaView.fitHeightProperty().bind(mazePane.heightProperty());
+            mediaView.setPreserveRatio(false);
+            mazePane.getChildren().add(mediaView);
+            mediaPlayerVideo.setAutoPlay(true);
+        }
+    }
+
     /**
      * This will be called when the user clicks on "Load menuitem in "File" menu.
      * This will open a file chooser, the user will choose a maze from disk and start the game.
@@ -240,10 +250,19 @@ public class MyViewController implements IView, Observer {
         File file = fileChooser.showOpenDialog(this.mazeDisplayer.getScene().getWindow());
         if (file != null) {
             this.myViewModel.LoadMaze(file);
+            if (SolveBtn.isDisable()){
+                SolveBtn.setDisable(false);
+            }
             mazeDisplayer.requestFocus();
         }
-        else{
-            showAlert("Something went wrong","Load error");
+        if(!SoundToggle.isSelected()) {
+            if (SolveBtn.isDisable()) {
+                mediaPlayer.stop();
+                Media song = new Media(getClass().getClassLoader().getResource("Audio/The Pink Panther Theme.mp3").toExternalForm());
+                mediaPlayer = new MediaPlayer(song);
+                mediaPlayer.setVolume(1.0);
+                mediaPlayer.play();
+            }
         }
     }
 
@@ -295,14 +314,18 @@ public class MyViewController implements IView, Observer {
         });
     }
 
+    /**
+     * Chooses what to draw on screen: Empty screen, maze, maze with solution or victory draw
+     * @throws FileNotFoundException
+     */
     public void chooseDraw() throws FileNotFoundException{
         try{
             if (maze == null){
                 mazeDisplayer.drawEmpty();
             }
             else if (SolveBtn.isDisable()){
-                    mazeDisplayer.drawVictory();
-
+//                    mazeDisplayer.drawVictory();
+                VictoryVideo();
             }
             else if (myViewModel.getSolPath().size() != 0){
                 mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
@@ -406,6 +429,7 @@ public class MyViewController implements IView, Observer {
         }
         else{
             this.mediaPlayer.play();
+
         }
         if (this.maze == null){
             rowInputTextField.requestFocus();
@@ -415,10 +439,21 @@ public class MyViewController implements IView, Observer {
         }
     }
 
+    /**
+     * Checks if the key pressed while in inputRow is Enter. If so, generates maze.
+     * @param keyEvent
+     */
     public void inputKeyPressed(KeyEvent keyEvent){
         if (keyEvent.getCode().equals(KeyCode.ENTER))
         {
             generateMaze();
         }
+    }
+
+    /**
+     * When user clicks on the mediaView (video) the video plays
+     */
+    public void mediaVideoMouseClicked(){
+        mediaPlayerVideo.play();
     }
 }

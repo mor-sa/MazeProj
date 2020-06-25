@@ -1,12 +1,12 @@
 .root{
     -fx-background-color: #f6d3da;
-    -fx-background-image: url("https://imgur.com/2wDtTZP.jpg");
+    /*-fx-background-image: url("https://imgur.com/2wDtTZP.jpg");*/
+    /*-fx-background-image: url("https://imgur.com/HmXhBKI.jpg");*/
+    -fx-background-image: url("https://imgur.com/wnopWXD.jpg");
     -fx-background-repeat: no-repeat;
-    /*-fx-background-size: cover;*/
     -fx-background-position: bottom left;
-    /*-fx-background-position: center center;*/
-
 }
+
 
 .menu-bar{ -fx-background-color: linear-gradient(#F0E8EB, #D4B6C1);}
 .menu-item .label{-fx-text-fill: #8D5D72;}
@@ -37,8 +37,13 @@ Line{
     -fx-stroke: C1B0B7;
 }
 
+/*GridPane{*/
+/*    -fx-background-color: #f6d3da;*/
+/*}*/
+
+
 .toggle-button {
-    -fx-background-image: url("https://imgur.com/tGvyFMg.jpg");
+    -fx-background-image:url("https://imgur.com/tGvyFMg.jpg");
     -fx-background-size: 40 40;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;

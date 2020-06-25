@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-
 <?import javafx.scene.media.MediaView?>
+
 <BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" onScroll="#Zoom" prefHeight="800.0" prefWidth="600.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <MenuBar fx:id="TopMenuBar" prefHeight="30.0" prefWidth="459.0" BorderPane.alignment="CENTER">

@@ -104,18 +104,18 @@ public class MyModel extends Observable implements IModel{
         Position nextPos = new Position();
         switch(direction)
         {
-//            case 1: //Down Left
-//                nextPos.setRowIndex(charPos.getRowIndex() + 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
-//                break;
+            case 1: //Down Left
+                nextPos.setRowIndex(charPos.getRowIndex() + 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
+                break;
             case 2: //Down
                 nextPos.setRowIndex(charPos.getRowIndex() + 1);
                 nextPos.setColumnIndex(charPos.getColumnIndex());
                 break;
-//            case 3:{ //Down Right
-//                nextPos.setRowIndex(charPos.getRowIndex() + 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
-//                break;
+            case 3: //Down Right
+                nextPos.setRowIndex(charPos.getRowIndex() + 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
+                break;
             case 4: //Left
                 nextPos.setRowIndex(charPos.getRowIndex());
                 nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
@@ -124,19 +124,18 @@ public class MyModel extends Observable implements IModel{
                 nextPos.setRowIndex(charPos.getRowIndex());
                 nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
                 break;
-
-//            case 7: //Up Left
-//                nextPos.setRowIndex(charPos.getRowIndex() - 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
-//                break;
+            case 7: //Up Left
+                nextPos.setRowIndex(charPos.getRowIndex() - 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
+                break;
             case 8: //Up
                 nextPos.setRowIndex(charPos.getRowIndex() - 1);
                 nextPos.setColumnIndex(charPos.getColumnIndex());
                 break;
-//            case 9: //Up Right
-//                nextPos.setRowIndex(charPos.getRowIndex() - 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
-//                break;
+            case 9: //Up Right
+                nextPos.setRowIndex(charPos.getRowIndex() - 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
+                break;
 
         }
         for (Position pos:possibleMoves){

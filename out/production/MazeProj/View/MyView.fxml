@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-
-<BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" onScroll="#Zoom" prefHeight="800.0" prefWidth="600.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" onScroll="#Zoom" prefHeight="800.0" prefWidth="600.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <MenuBar fx:id="TopMenuBar" prefHeight="30.0" prefWidth="459.0" BorderPane.alignment="CENTER">
             <menus>
@@ -46,7 +45,7 @@
         </Pane>
     </center>
     <left>
-        <Pane prefHeight="100.0" prefWidth="230.0" BorderPane.alignment="CENTER">
+        <Pane fx:id="ControlGrid" maxHeight="320.0" minHeight="100.0" prefHeight="320.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(from 100% 100% to 100% 90%, transparent, rgba(246,211,218,1))" BorderPane.alignment="TOP_LEFT">
             <children>
                 <Line endX="100.0" endY="-2.0" layoutX="130.0" layoutY="1.0" startX="100.0" startY="1000.0" />
                 <GridPane layoutX="47.0" layoutY="76.0" maxHeight="100.0" prefHeight="100.0" prefWidth="136.0">
@@ -62,12 +61,12 @@
                     <children>
                         <Label fx:id="lbl_rowNum" prefHeight="51.0" prefWidth="76.0" text=" Rows:" />
                         <Label fx:id="lbl_colNum" text=" Columns:" GridPane.rowIndex="1" />
-                        <TextField fx:id="rowInputTextField" prefHeight="27.0" prefWidth="86.0" GridPane.columnIndex="1" onKeyPressed="#inputKeyPressed">
+                        <TextField fx:id="rowInputTextField" onKeyPressed="#inputKeyPressed" prefHeight="27.0" prefWidth="86.0" GridPane.columnIndex="1">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>
                         </TextField>
-                        <TextField fx:id="colInputTextField" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" onKeyPressed="#inputKeyPressed">
+                        <TextField fx:id="colInputTextField" onKeyPressed="#inputKeyPressed" prefHeight="24.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <padding>
                                 <Insets bottom="1.0" />
                             </padding>
@@ -96,7 +95,7 @@
                         </Button>
                     </children>
                 </GridPane>
-            <ToggleButton fx:id="SoundToggle" layoutX="87.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="40.0"/>
+            <ToggleButton fx:id="SoundToggle" layoutX="87.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="40.0" />
             </children>
         </Pane>
     </left>

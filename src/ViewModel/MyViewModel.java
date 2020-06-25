@@ -77,17 +77,33 @@ public class MyViewModel extends Observable implements Observer {
         int direction = -1;
 
         switch (keyEvent.getCode()){
+            case NUMPAD8:
             case UP:
                 direction = 8;
                 break;
+            case NUMPAD2:
             case DOWN:
                 direction = 2;
                 break;
+            case NUMPAD4:
             case LEFT:
                 direction = 4;
                 break;
+            case NUMPAD6:
             case RIGHT:
                 direction = 6;
+                break;
+            case NUMPAD1:
+                direction = 1;
+                break;
+            case NUMPAD3:
+                direction = 3;
+                break;
+            case NUMPAD7:
+                direction = 7;
+                break;
+            case NUMPAD9:
+                direction = 9;
                 break;
         }
         model.updateCharacterLocation(direction);

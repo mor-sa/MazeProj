@@ -154,7 +154,6 @@ public class MyViewController implements IView, Observer {
         mazeDisplayer.requestFocus();
     }
 
-
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof MyViewModel)

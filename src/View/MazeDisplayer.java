@@ -98,19 +98,20 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.setFill(Color.LIGHTPINK);
             double w,h;
             //Draw Maze
-            try { goalImage = new Image(new FileInputStream(getImageFileNameGoal())); }
-            catch (FileNotFoundException e) {
+            try { goalImage = new Image(ClassLoader.getSystemResourceAsStream("Images/diamondjpeg.jpg")); }
+            catch (Exception e) {
                 throw new FileNotFoundException("Missing a Goal image file that is needed to generate a maze.");
             }
-            try { playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));}
-            catch (FileNotFoundException e) {
+            try { playerImage = new Image(ClassLoader.getSystemResourceAsStream("Images/pantherfacejpeg.jpg"));}
+            catch (Exception e) {
                 throw new FileNotFoundException("Missing a Player image file that is needed to generate a maze.");
             }
-            try{ wallImage = new Image(new FileInputStream(getImageFileNameWall()));}
-            catch (FileNotFoundException e) {
+            try{ wallImage = new Image(ClassLoader.getSystemResourceAsStream("Images/wall.jpg"));}
+            catch (Exception e) {
                 throw new FileNotFoundException("Missing a Wall image file that is needed to generate a maze.");
             }
-            try{ passageImage = new Image(new FileInputStream(getImageFileNamePassage())); } catch (FileNotFoundException e) {
+            try{ passageImage = new Image((ClassLoader.getSystemResourceAsStream("Images/lightPink2.jpg"))); }
+            catch (Exception e) {
                 throw new FileNotFoundException("Missing a Passage image file that is needed to generate a maze.");
             }
             graphicsContext.setStroke(Color.DARKGREY);
@@ -145,8 +146,8 @@ public class MazeDisplayer extends Canvas {
 
     public void drawSolution(int rowCharInd, int colCharInd, ArrayList<Position> path) throws FileNotFoundException{
         try {
-            stepImage = new Image(new FileInputStream(getImageFileNameStep()));
-        } catch (FileNotFoundException e) {
+            stepImage = new Image(ClassLoader.getSystemResourceAsStream("Images/step3jpeg.jpg"));
+        } catch (Exception e) {
             throw new FileNotFoundException("Missing a Step image file that is needed to show a solution.");
         }
         int row = maze.length;
@@ -177,9 +178,9 @@ public class MazeDisplayer extends Canvas {
         graphicsContext.clearRect(0,0,getWidth(),getHeight());
         graphicsContext.setFill(Color.LIGHTPINK);
         try {
-            victoryImage = new Image(new FileInputStream(getImageFileNameVictory()));
+            victoryImage = new Image(ClassLoader.getSystemResourceAsStream("Images/victory2.jpg"));
         }
-        catch (FileNotFoundException e) {
+        catch (Exception e) {
             throw new FileNotFoundException("Missing a Victory image file that is needed to show victory.");
         }
         graphicsContext.drawImage(victoryImage,0,0,getWidth(),getHeight());

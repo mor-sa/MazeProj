@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.media.MediaView?>
 
+<?import javafx.scene.media.MediaView?>
 <BorderPane fx:id="BorderPane" onMouseClicked="#mouseClicked" onScroll="#Zoom" prefHeight="800.0" prefWidth="600.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <MenuBar fx:id="TopMenuBar" prefHeight="30.0" prefWidth="459.0" BorderPane.alignment="CENTER">
@@ -42,7 +42,7 @@
         <Pane fx:id="mazePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <MediaView fx:id="videoView" onMouseClicked="#mediaVideoMouseClicked"/>
-                <MazeDisplayer fx:id="mazeDisplayer" height="${mazePane.height}" imageFileNameGoal="./Resources/Images/diamondjpeg.jpg" imageFileNamePassage="./Resources/Images/lightPink2.jpg" imageFileNamePlayer="./Resources/Images/pantherfacejpeg.jpg" imageFileNameStep="./Resources/Images/step3jpeg.jpg" imageFileNameVictory="./Resources/Images/victory2.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" width="${mazePane.width}" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="${mazePane.height}" imageFileNameGoal="./Images/diamondjpeg.jpg" imageFileNamePassage="./Images/lightPink2.jpg" imageFileNamePlayer="./Images/pantherfacejpeg.jpg" imageFileNameStep="./Images/step3jpeg.jpg" imageFileNameVictory="./Resources/Images/victory2.jpg" imageFileNameWall="./Resources/Images/wall.jpg" layoutX="0.0" layoutY="0.0" onKeyPressed="#keyPressed" width="${mazePane.width}" />
             </children>
         </Pane>
     </center>

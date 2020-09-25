@@ -17,6 +17,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="ATPProjectJar" level="project" />
+    <orderEntry type="library" name="ATPProjectJar" level="project" />
   </component>
 </module>

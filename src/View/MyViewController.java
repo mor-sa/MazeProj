@@ -159,8 +159,8 @@ public class MyViewController implements IView, Observer {
         if(o instanceof MyViewModel)
         {
             if (mediaPlayerVideo != null){
-
                 mazePane.getChildren().remove(mediaView);
+                mediaPlayerVideo = null;
             }
             if(maze == null)//generateMaze
             {
@@ -227,6 +227,7 @@ public class MyViewController implements IView, Observer {
             mediaView.fitHeightProperty().bind(mazePane.heightProperty());
             mediaView.setPreserveRatio(false);
             mazePane.getChildren().add(mediaView);
+            mediaPlayerVideo.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayerVideo.setAutoPlay(true);
         }
     }
@@ -320,6 +321,7 @@ public class MyViewController implements IView, Observer {
             else if (SolveBtn.isDisable()){
 //                    mazeDisplayer.drawVictory();
                 VictoryVideo();
+                mediaPlayerVideo = null;
             }
             else if (myViewModel.getSolPath().size() != 0){
                 mazeDisplayer.drawSolution(rowCharInd, colCharInd, myViewModel.getSolPath());
@@ -448,6 +450,7 @@ public class MyViewController implements IView, Observer {
      * When user clicks on the mediaView (video) the video plays
      */
     public void mediaVideoMouseClicked(){
+        mediaPlayerVideo.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayerVideo.play();
     }
 }

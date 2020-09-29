@@ -6,32 +6,29 @@ import Server.*;
 import algorithms.mazeGenerators.*;
 import algorithms.search.AState;
 import algorithms.search.Solution;
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class MyModel extends Observable implements IModel{
     private Maze maze;
     private ArrayList<Position> SolPath;
     private static Server serverMazeGenerator;
     private static Server serverSolveMaze;
-    //private int rowCharInd;
-    //private int colCharInd;
     private Position charPos;
+    private Properties prop;
 
     public MyModel() {
         maze = null;
-        //rowCharInd = 0;
-        //colCharInd = 0;
         charPos = new Position();
         SolPath = new ArrayList<>();
+        prop = Server.Configurations.loadConfig();
     }
 
+    /**
+     * Starting the servers
+     */
     public void startServers(){
         this.serverMazeGenerator = new Server(5400, 1000, (IServerStrategy)new ServerStrategyGenerateMaze());
         this.serverSolveMaze = new Server(5401, 1000, (IServerStrategy)new ServerStrategySolveSearchProblem());
@@ -40,11 +37,20 @@ public class MyModel extends Observable implements IModel{
 
     }
 
+    /**
+     * Stopping the servers
+     */
     public void stopServers(){
         this.serverMazeGenerator.stop();
         this.serverSolveMaze.stop();
     }
 
+    /**
+     * This method will generate a new maze by using the Communicate with server method from Client.
+     * We first define the client.
+     * @param row - number of rows in the new maze
+     * @param col - number of cols in the new maze
+     */
     public void generateMaze(final int row, final int col){
         SolPath = new ArrayList<>();
         try {
@@ -68,8 +74,6 @@ public class MyModel extends Observable implements IModel{
                 }
             });
             client.communicateWithServer();
-            //this.colCharInd = this.maze.getStartPosition().getColumnIndex();
-            //this.rowCharInd = this.maze.getStartPosition().getRowIndex();
             charPos.setRowIndex(this.maze.getStartPosition().getRowIndex());
             charPos.setColumnIndex(this.maze.getStartPosition().getColumnIndex());
 
@@ -80,6 +84,10 @@ public class MyModel extends Observable implements IModel{
         notifyObservers();
     }
 
+    /**
+     * This method gets an int that represents direction, and then changes the character's location accordingly.
+     * @param direction - which direction the character went and needs to be updated
+     */
     public void updateCharacterLocation(int direction)
     {
         /*
@@ -96,18 +104,18 @@ public class MyModel extends Observable implements IModel{
         Position nextPos = new Position();
         switch(direction)
         {
-//            case 1: //Down Left
-//                nextPos.setRowIndex(charPos.getRowIndex() + 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
-//                break;
+            case 1: //Down Left
+                nextPos.setRowIndex(charPos.getRowIndex() + 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
+                break;
             case 2: //Down
                 nextPos.setRowIndex(charPos.getRowIndex() + 1);
                 nextPos.setColumnIndex(charPos.getColumnIndex());
                 break;
-//            case 3:{ //Down Right
-//                nextPos.setRowIndex(charPos.getRowIndex() + 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
-//                break;
+            case 3: //Down Right
+                nextPos.setRowIndex(charPos.getRowIndex() + 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
+                break;
             case 4: //Left
                 nextPos.setRowIndex(charPos.getRowIndex());
                 nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
@@ -116,19 +124,18 @@ public class MyModel extends Observable implements IModel{
                 nextPos.setRowIndex(charPos.getRowIndex());
                 nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
                 break;
-
-//            case 7: //Up Left
-//                nextPos.setRowIndex(charPos.getRowIndex() - 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
-//                break;
+            case 7: //Up Left
+                nextPos.setRowIndex(charPos.getRowIndex() - 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() - 1);
+                break;
             case 8: //Up
                 nextPos.setRowIndex(charPos.getRowIndex() - 1);
                 nextPos.setColumnIndex(charPos.getColumnIndex());
                 break;
-//            case 9: //Up Right
-//                nextPos.setRowIndex(charPos.getRowIndex() - 1);
-//                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
-//                break;
+            case 9: //Up Right
+                nextPos.setRowIndex(charPos.getRowIndex() - 1);
+                nextPos.setColumnIndex(charPos.getColumnIndex() + 1);
+                break;
 
         }
         for (Position pos:possibleMoves){
@@ -142,12 +149,10 @@ public class MyModel extends Observable implements IModel{
     }
 
     public int getRowChar() {
-        //return rowCharInd;
         return charPos.getRowIndex();
     }
 
     public int getColChar() {
-        //return colCharInd;
         return charPos.getColumnIndex();
     }
 
@@ -156,10 +161,15 @@ public class MyModel extends Observable implements IModel{
         this.addObserver(o);
     }
 
+    /**
+     * This method solves the maze and saves the solution as ArrayList<Position>
+     */
     @Override
-    public void solveMaze() {
+    public void solveMaze(int rowStartPos, int colStartPos) {
         //Solving maze
+        Position recovery = maze.getStartPosition();
         try {
+            maze.setStartPosition(rowStartPos, colStartPos);
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
@@ -180,6 +190,7 @@ public class MyModel extends Observable implements IModel{
                             MyModel.this.SolPath.add(curPos);
                         }
                     } catch (Exception e) {
+                        maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
                         e.printStackTrace();
                     }
 
@@ -187,11 +198,13 @@ public class MyModel extends Observable implements IModel{
             });
             client.communicateWithServer();
         } catch (UnknownHostException e) {
+            maze.setStartPosition(recovery.getRowIndex(), recovery.getColumnIndex());
             e.printStackTrace();
         }
         setChanged();
         notifyObservers();
     }
+
 
     @Override
     public ArrayList<Position> getSolutionPath() {
@@ -203,4 +216,61 @@ public class MyModel extends Observable implements IModel{
     }
 
     public int[][] getArrMaze(){return maze.getArrMaze();}
+
+    /**
+     * Method to save the MyModel's maze to a given file.
+     * @param file - the maze will be saved on
+     */
+    public void Save(File file){
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
+            out.writeObject(this.maze);
+            out.flush();
+            out.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void Load(File file) throws IOException, ClassNotFoundException {
+        try {
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream inputStream = new ObjectInputStream(in);
+            Maze loadedMaze = (Maze)inputStream.readObject();
+            this.charPos.setRowIndex(loadedMaze.getStartPosition().getRowIndex());
+            this.charPos.setColumnIndex(loadedMaze.getStartPosition().getColumnIndex());
+            this.maze = loadedMaze;
+            setChanged();
+            notifyObservers();
+            inputStream.close();
+        }
+        catch(IOException | ClassNotFoundException e ){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method will close the servers and exit the program.
+     */
+    public void exit(){
+        this.stopServers();
+        System.exit(0);
+    }
+
+    public String getMazeGenAlg(){
+        return prop.getProperty("MazeGenerator");
+    }
+
+    public String getMazeSolveAlg() {
+        return prop.getProperty("SearchingAlgorithm");
+    }
+
+    public String getNumOfThreads() {
+        return prop.getProperty("NumOfThreads");
+    }
+
+    public void clearSolPath(){ this.SolPath.clear(); }
 }

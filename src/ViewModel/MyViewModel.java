@@ -1,8 +1,11 @@
 package ViewModel;
 
 import Model.IModel;
-import algorithms.mazeGenerators.*;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import javafx.scene.input.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,15 +13,15 @@ import java.util.Observer;
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
-    //private Maze maze;
-    //private int rowCharInd;
-    //private int colCharInd;
+    private Maze maze;
+    private int rowCharInd;
+    private int colCharInd;
 
 
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this);
-        //this.maze = null;
+      //  this.maze = model.getMaze();
     }
 
     public Maze getMaze() {
@@ -28,6 +31,8 @@ public class MyViewModel extends Observable implements Observer {
     public ArrayList<Position> getSolPath() {
         return model.getSolutionPath();
     }
+
+    public void clearSolPath(){ this.model.clearSolPath(); }
 
     public int getRowChar() {
         return this.model.getRowChar();
@@ -49,8 +54,6 @@ public class MyViewModel extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if(o == this.model)
         {
-            //this.colCharInd = this.model.getColChar();
-            //this.rowCharInd = this.model.getRowChar();
             setChanged();
             notifyObservers();
         }
@@ -61,35 +64,79 @@ public class MyViewModel extends Observable implements Observer {
         this.model.generateMaze(row,col);
     }
 
+    /**
+     * This method is using the model's save method to save the file.
+     * @param file
+     */
+    public void Save(File file){
+        this.model.Save(file);
+    }
+
     public void moveCharacter(KeyEvent keyEvent)
     {
         int direction = -1;
 
         switch (keyEvent.getCode()){
+            case NUMPAD8:
             case UP:
                 direction = 8;
                 break;
+            case NUMPAD2:
             case DOWN:
                 direction = 2;
                 break;
+            case NUMPAD4:
             case LEFT:
                 direction = 4;
                 break;
+            case NUMPAD6:
             case RIGHT:
                 direction = 6;
+                break;
+            case NUMPAD1:
+                direction = 1;
+                break;
+            case NUMPAD3:
+                direction = 3;
+                break;
+            case NUMPAD7:
+                direction = 7;
+                break;
+            case NUMPAD9:
+                direction = 9;
                 break;
         }
         model.updateCharacterLocation(direction);
     }
 
-    public void solveMaze()
+    public void solveMaze(int rowCharInd, int colCharInd)
     {
-        model.solveMaze();
+        model.solveMaze(rowCharInd, colCharInd);
     }
 
-    public void getSolution()
-    {
-        //model.getSolution();
+    public void LoadMaze(File file){
+        try{
+            this.model.Load(file);
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void Exit(){
+        this.model.exit();
+    }
+
+    public String getModelMazeGenAlg(){
+        return this.model.getMazeGenAlg();
+    }
+
+    public String getModelMazeSolveAlg() {
+        return this.model.getMazeSolveAlg();
+    }
+
+    public String getModelNumOfThreads() {
+        return this.model.getNumOfThreads();
     }
 }
 
